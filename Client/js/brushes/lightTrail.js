@@ -26,10 +26,12 @@ lightTrail.prototype =
 
     color:[0,0,0],
 
+    lightCycle: new Image() ,
+
 	init: function( context, color )
 	{
 		var scope = this;
-
+        scope.lightCycle.src = "images/lightcycle.png";
 		this.context = context;
 		this.context.globalCompositeOperation = 'source-over';
 
@@ -37,7 +39,7 @@ lightTrail.prototype =
 		this.positionY = 400;
 
         if (!color && color.length != 0){
-            this.color = color;
+            scope.color = color;
         }// else defaults to RGB 0,0,0
 
 		this.painters = new Array();
@@ -56,7 +58,7 @@ lightTrail.prototype =
 			scope.context.lineWidth = BRUSH_SIZE;
 			scope.context.strokeStyle = "rgba(" + scope.color[0] + ", " + scope.color[1] + ", " + scope.color[2] + ", " + 0.05 * BRUSH_PRESSURE + ")";
 
-			for (i = 0; i < scope.painters.length; i++)
+            for (i = 0; i < scope.painters.length; i++)
 			{
 				scope.context.beginPath();
 				scope.context.moveTo(scope.painters[i].dx, scope.painters[i].dy);
@@ -66,6 +68,8 @@ lightTrail.prototype =
 				scope.context.lineTo(scope.painters[i].dx, scope.painters[i].dy);
 				scope.context.stroke();
 			}
+
+            scope.context.drawImage(scope.lightCycle, scope.painters[i-1].dx,  scope.painters[i-1].dy, 33.33, 12.66);
 		}
 	},
 
