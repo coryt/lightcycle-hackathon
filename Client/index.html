@@ -5,61 +5,13 @@
 	<script type="text/javascript" src="js/stringbuilder.js"></script>
 	<script type="text/javascript" src="js/logger.js"></script>
 	<script type="text/javascript" src="js/canvasHelper.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/login.css" />
 </head>
-<style type="text/css">
-	body
-	{
-		font-family: Arial;
-	}
-
-	h2
-	{
-		font-size: 18px;;
-		text-align: center;
-		margin-bottom: 32px;
-	}
-
-	.login
-	{
-		width: 350px;
-		margin: 0 auto 0 auto;
-	} 
-	
-	.login div span,
-	.login div input[type=text],
-	.login div select
-	{
-		display: block;
-		width: 49%;
-		float: left;
-	}
-	
-	.login div
-	{
-		clear: both;
-	}
-	
-	.login div input[type=submit]
-	{		
-		display: block;
-		width: 100px;
-		margin: 64px auto 0 auto;
-	}
-</style>
 <script type="text/javascript">
 	var IndexLogger = new Logger("IndexPage");
 	IndexLogger.debug("testing the logger");
-
-	login = function() {
-		var nickname = document.getElementById('nickname').value;
-		var colourList = document.getElementById('colour');	
-		var colour = colourList.options[colourList.selectedIndex].value;
-		var server = document.getElementById('server').value;
-
-		document.location.href = 'play.html?nickname=' + nickname + '&colour=' + colour + '&server=' + server;
-			
-		return false; // avoid postback
-	};
 </script>
 <body>
 	<h2>

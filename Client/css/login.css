@@ -1,0 +1,38 @@
+body
+{
+	font-family: Arial;
+}
+
+h2
+{
+	font-size: 18px;;
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.login
+{
+	width: 350px;
+	margin: 0 auto 0 auto;
+} 
+
+.login div span,
+.login div input[type=text],
+.login div select
+{
+	display: block;
+	width: 49%;
+	float: left;
+}
+
+.login div
+{
+	clear: both;
+}
+
+.login div input[type=submit]
+{		
+	display: block;
+	width: 100px;
+	margin: 64px auto 0 auto;
+}
