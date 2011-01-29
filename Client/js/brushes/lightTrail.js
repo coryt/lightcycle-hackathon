@@ -69,9 +69,40 @@ lightTrail.prototype =
 				scope.context.stroke();
 			}
 
-            scope.context.drawImage(scope.lightCycle, scope.painters[i-1].dx,  scope.painters[i-1].dy, 33.33, 12.66);
+			var xPos = this.positionX;
+			var yPos = this.positionY;
+	
+			context.save();
+			context.translate(xPos, yPos);
+			context.rotate(scope.determineAngle(xPos, yPos, xPos, yPos));
+            scope.context.drawImage(scope.lightCycle, 0,  0, 33.33, 12.66);
+			context.restore();
 		}
 	},
+	
+	determineAngle:function(x1,y1,x2,y2)
+	{
+		var dx = x2-x1;
+		var dy = y2-y1;
+		var angle = 0;
+		if (dx == 0)
+		{angle=dy>0?90:-90;}
+		else if (dy == 0)
+		{angle=dx>0?0:-180;}
+		else if (dx > 0 && dy > 0)
+		{angle=45;}
+		else if (dx < 0 && dy > 0)
+		{angle=135;}
+		else if (dx > 0 && dy < 0)
+		{angle=-45;}
+		else if (dx < 0 && dy < 0)
+		{angle=-135;}
+		else
+		{
+			//wtf?
+		}
+		return angle;
+	}
 
 	destroy: function()
 	{
