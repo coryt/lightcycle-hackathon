@@ -38,16 +38,6 @@ ServerConn.prototype.onConnectionOpen_ = function() {
 /** Internal WebSocket handler for closed connections */
 ServerConn.prototype.onServerClose_ = function() {
     console.log('server disconnected');
-    if (window.webkitNotifications) {
-        /*
-        var notification = webkitNotifications.createNotification(
-                null,
-                'Disconnected',
-                'Server disconnected'
-        );
-        notification.show();
-        */
-    }
 }
 
 /** Internal WebSocket handler for server errors */
@@ -57,15 +47,30 @@ ServerConn.prototype.onServerError_ = function(error) {
 
 /** Internal WebSocket handler for server messages */
 ServerConn.prototype.onMessage_ = function(e) {
-    console.log(e.data);
-    var obj = JSON.parse(e.data);
+    console.log(e + ' --- ' + e.data);
+    this.parseMessage_(e.data);
+}
 
-    switch (obj.Type) {
+ServerConn.prototype.parseMessage_ = function(data) {
+    var obj = JSON.parse(data);
+
+    switch (obj.command) {
         case ResponseType.STATE:
             console.log('STATE response');
-            if (this.onState) {
-                onState(obj);
+            var msg = obj.message;
+            if (this.onState && msg) {
+                var state = new GameState(msg.status);
+                var players = msg.players;
+                if (players) {
+                    for (var i = 0; i < players.length; i ++) {
+                        var player = players[i];
+                        if (player) {
+                            state.addPlayer(player);
+                        }
+                    }
+                }
             }
+            onState(state);
             break;
         default:
             console.error('Invalid response type: ' + obj.command);
