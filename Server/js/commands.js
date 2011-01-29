@@ -11,7 +11,9 @@ JoinCommand.onMessage = function(server, conn, player) {
   // parse the player info and return the game state
   if (player && player != '') {
     syslog('> ' + player.name);
-    server.setPlayer(p.createPlayer(player));
+    var newPlayer = p.createPlayer(player);
+    syslog('> ' + newPlayer.name);
+    server.setPlayer(newPlayer);
   }
   server.broadcast({status: "Closed", players: [server.players_]}, NotificationCommand.STATE);
 };
