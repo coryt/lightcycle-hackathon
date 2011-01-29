@@ -51,6 +51,22 @@ function play_init()
 		document.getElementById("fps").innerHTML = canvasHelper.FPS();
 	}, 1000);
 	
+	//console.log(document.getElementById("canvas").getContext("2d"));
+	var lt = new lightTrail(document.getElementById("canvas").getContext("2d"), [0,0,0]);
+	lt.strokeStart(10,10);
+	lt.stroke(100,100);	
+	lt.stroke(90,75);
+	
+	// Player name initialization.
+	var tmpPlayer = new Player({
+		Nickname: queryString("nickname"),
+		Colour: queryString("colour"),
+		StartX: 0,
+		StartY: 0
+	});
+	
+	document.getElementById('p-name').innerHTML = tmpPlayer.GetNickname();
+	
 	// Now that we have everything sized properly, show the game.
 	document.getElementById("loadingMessage").style.display = "none";
 	title.style.display = "block";

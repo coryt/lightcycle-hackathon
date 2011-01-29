@@ -4,6 +4,7 @@
 function CanvasHelper(configOptions)
 {
 	var self=this;
+	var log = new Logger("CanvasHelper");
 	
 	var MAX_FPS = 60;
 	
@@ -40,7 +41,9 @@ function CanvasHelper(configOptions)
 				clearTimeout(_drawFrameInterval);
 			}
 			catch (err)
-			{}
+			{
+				log.error("Could not clear draw frame interval",err);
+			}
 		}
 		try
 		{
@@ -48,8 +51,9 @@ function CanvasHelper(configOptions)
 		}
 		catch (err)
 		{
-		
+			log.error("Could not create draw frame interval",err);
 		}
+		drawFrame();
 	}
 	
 	//draws a frame then copies it to the main canvas
@@ -64,7 +68,9 @@ function CanvasHelper(configOptions)
 			}
 		}
 		catch (err)
-		{}
+		{
+			log.error("An erro occured while drawing the frame", err);
+		}
 		try
 		{
 			if (_targetCanvasContext)
@@ -72,7 +78,9 @@ function CanvasHelper(configOptions)
 				_targetCanvasContext.drawImage(_offscreenCanvas, 0, 0, _targetCanvasWidth, _targetCanvasHeight);
 			}
 		}catch (err)
-		{}
+		{
+			log.error("An error occured while updating the main canvas",err);
+		}
 	}
 	
 	//Sets a callback that will be called on a periodic basis
@@ -90,7 +98,7 @@ function CanvasHelper(configOptions)
 	{
 		if (targetValue)
 		{
-			_targetFPS = Math.min(MAX_FPS, Number(_targetFPS));
+			_targetFPS = Math.max(0.1, Math.min(MAX_FPS, Number(targetValue)));
 			updateDrawFrameInterval();
 		}
 		return _actualFPS;
@@ -108,7 +116,8 @@ function CanvasHelper(configOptions)
 		_targetCanvasContext = _targetCanvas.getContext("2d");
 		if (!_targetCanvasContext)
 		{
-			throw ("Could not find graphics context");
+			log.error("Could not find main canvas graphics context");
+			throw ("Could not find main canvas graphics context");
 		}
 		if (width || height)
 		{
@@ -157,12 +166,14 @@ function CanvasHelper(configOptions)
 		_offscreenCanvas = document.createElement("canvas");
 		if (!_offscreenCanvas || !_offscreenCanvas.getContext)
 		{
-			throw ("Could not create canvas element");
+			log.error("Could not create offscreen canvas element");
+			throw ("Could not create offscreen canvas element");
 		}
 		_offscreenCanvasContext = _offscreenCanvas.getContext("2d");
 		if (!_offscreenCanvasContext)
 		{
-			throw ("Could not fetch graphics context");
+			log.error("Could not fetch offscreen graphics context"); 
+			throw ("Could not fetch offscreen graphics context");
 		}
 		if (configOptions)
 		{

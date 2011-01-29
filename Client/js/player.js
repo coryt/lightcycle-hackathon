@@ -72,9 +72,3 @@ this.Player = function (initialProperties) {
 	init(initialProperties);
 }
 
-/*
-var myPlayer = new Player({ Nickname: 'John', Colour: 'Red', StartX : 50, StartY: 50 });
-myPlayer.SetCoord({X: 50, Y: 70});
-alert(myPlayer.GetCoord());
-alert(myPlayer.GetNickname());
-*/

@@ -1,7 +1,7 @@
 function Logger(name)
 {
 	var self=this;
-	function log(severity, msg)
+	function log(severity, msg, moreInfo)
 	{
 		var sb = new StringBuilder();
 		var now = new Date();
@@ -13,6 +13,19 @@ function Logger(name)
 		sb.append(name);
 		sb.append(" ] ");
 		sb.append(msg);
+		
+		if (moreInfo != null && typeof moreInfo != "undefined")
+		{
+			sb.append("\n");
+			try
+			{
+				sb.append(JSON.stringify(moreInfo));
+			}
+			catch (err)
+			{
+				//don't care
+			}
+		}
 		
 		var result = sb.toString();
 		for(var i=0;i<_Loggers.length;i++)
@@ -28,14 +41,14 @@ function Logger(name)
 		}
 	}
 	
-	self.debug = function(msg)
-	{log("Debug", msg);}
-	self.error = function(msg)
-	{log("Error", msg);}
-	self.info = function(msg)
-	{log("Info ", msg);}
-	self.warn = function(msg)
-	{log("Warn ", msg);}
+	self.debug = function(msg, moreInfo)
+	{log("Debug", msg, moreInfo);}
+	self.error = function(msg, moreInfo)
+	{log("Error", msg, moreInfo);}
+	self.info = function(msg, moreInfo)
+	{log("Info ", msg, moreInfo);}
+	self.warn = function(msg, moreInfo)
+	{log("Warn ", msg, moreInfo);}
 }
 
 var _Loggers = [];

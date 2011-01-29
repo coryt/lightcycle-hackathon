@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>test</title>
+    <script type="text/javascript" src="js/requestType.js"></script>
+    <script type="text/javascript" src="js/responseType.js"></script>
+    <script type="text/javascript" src="js/actions.js"></script>
+    <script type="text/javascript" src="js/gameState.js"></script>
+    <script type="text/javascript" src="js/serverConn.js"></script>
+    <script>
+        window.addEventListener('load', onLoad, false);
+        function onLoad() {
+            var conn = new ServerConn('137.122.39.222:8080', 'test', 'ffffff');
+            conn.onState = this.onState;
+            conn.start();
+
+            //var data = '{"command":"STATE","message":{"status":"Closed","players":{"671230260":{"id":"671230260"}}}}';
+            //conn.parseMessage_(data);
+        }
+        function onState(state) {
+            console.log(state);
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>
