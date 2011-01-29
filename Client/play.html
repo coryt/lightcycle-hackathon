@@ -5,15 +5,19 @@
 		<script type="text/javascript" src="js/stringbuilder.js"></script>
 		<script type="text/javascript" src="js/logger.js"></script>
 		<script type="text/javascript" src="js/canvasHelper.js"></script>
+		<script type="text/javascript" src="js/play.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="css/play.css" />
 	</head>
 	
-	<body>
-		<h1>Multiplayer LightCycle</h1>
+	<body onload="play_init()">
+		<div id="loadingMessage">
+			<p>Loading...</p>
+		</div>
+	
+		<h1 id="title">Multiplayer LightCycle</h1>
 			
 		<div id="page">
-			
 			<h2 id="clock">0:00</h2>
 			
 			<div id="main">
@@ -75,37 +79,5 @@
 				<li>Kill enemies for bonus points.</li>
 			</ul>
 		</div>
-		
-		<script type="text/javascript">
-			function drawTest(context)
-			{
-				context.strokeStyle = "#000000";
-				context.fillStyle = "#FFFF00";
-				context.beginPath();
-				context.arc(100,100,50,0,Math.PI*2,true);
-				context.closePath();
-				context.stroke();
-				context.fill();
-			}
-			
-			var canvasHelper = new CanvasHelper({
-				onDraw:drawTest,
-				FPS:30,
-				offscreenSize:
-				{
-					width:800,
-					height:600
-				},
-				target:document.getElementById("canvas"),
-				targetSize:
-				{
-					width:800,
-					height:600
-				}
-			});
-			setInterval(function(){
-				document.getElementById("fps").innerHTML = canvasHelper.FPS();
-			}, 1000);
-		</script>
 	</body>
 </html>
