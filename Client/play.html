@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Play Multiplayer LightCycle</title>
+		<script type="text/javascript" src="js/brushes/lightTrail.js"></script>
 		<script type="text/javascript" src="js/player.js"></script>
 		<script type="text/javascript" src="js/stringbuilder.js"></script>
 		<script type="text/javascript" src="js/logger.js"></script>
@@ -120,6 +121,13 @@
 			setInterval(function(){
 				document.getElementById("fps").innerHTML = canvasHelper.FPS();
 			}, 1000);
+			
+			//console.log(document.getElementById("canvas").getContext("2d"));
+			var lt = new lightTrail(document.getElementById("canvas").getContext("2d"), [0,0,0]);
+			lt.strokeStart(10,10);
+			lt.stroke(100,100);	
+			lt.stroke(90,75);
+
 		</script>
 	</body>
 </html>
