@@ -39,6 +39,8 @@ h1 {
 	font-size: 24px;
 	font-weight: bold;
 	
+	color: #FFFFFF;
+	background-color: #454545;
 	border-bottom: 1px solid #000000;
 }
 
@@ -53,6 +55,7 @@ h2 {
 }
 
 div#main {
+	background-color: #454545;
 	border-top: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 }
@@ -71,9 +74,12 @@ canvas {
 	width: 0;
 	height: 0;
 	
-	background-color: #FFCCFF;
 	border-left: 1px solid #000000;
 	border-right: 1px solid #000000;
+}
+
+canvas#backgroundCanvas {
+	position: absolute;
 }
 
 div#playerInfo {
@@ -84,6 +90,8 @@ div#playerInfo {
 	/* height added at runtime */
 	height: 0px;
 	overflow-y: auto;
+	
+	color: #FFFFFF;
 }
 
 ul#instructions {

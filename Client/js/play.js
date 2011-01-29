@@ -17,9 +17,13 @@ function play_init()
 		canvasSize = width;
 	}
 	
-	var canvas = document.getElementById("canvas");
-	canvas.style.width = canvasSize + "px";
-	canvas.style.height = canvasSize + "px";
+	var bgCanvas = document.getElementById("backgroundCanvas");
+	bgCanvas.style.width = canvasSize + "px";
+	bgCanvas.style.height = canvasSize + "px";
+	
+	var fgCanvas = document.getElementById("foregroundCanvas");
+	fgCanvas.style.width = canvasSize + "px";
+	fgCanvas.style.height = canvasSize + "px";
 	
 	var playerInfo = document.getElementById("playerInfo");
 	playerInfo.style.height = canvasSize + "px";
@@ -40,7 +44,7 @@ function play_init()
 			width:800,
 			height:800
 		},
-		target:document.getElementById("canvas"),
+		target:document.getElementById("backgroundCanvas"),
 		targetSize:
 		{
 			width:800,
@@ -52,7 +56,7 @@ function play_init()
 	}, 1000);
 	
 	//console.log(document.getElementById("canvas").getContext("2d"));
-	var lt = new lightTrail(document.getElementById("canvas").getContext("2d"), [0,0,0]);
+	var lt = new lightTrail(document.getElementById("foregroundCanvas").getContext("2d"), [0,0,0]);
 	lt.strokeStart(10,10);
 	lt.stroke(100,100);	
 	lt.stroke(90,75);
