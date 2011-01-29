@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Play Multiplayer LightCycle</title>
+		<script type="text/javascript" src="js/stringbuilder.js"></script>
+		<script type="text/javascript" src="js/logger.js"></script>
+		<script type="text/javascript" src="js/canvasHelper.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/play.css" />
+	</head>
+	
+	<body>
+		<div id="page">
+			<div id="header">
+				<h1>Multiplayer LightCycle</h1>
+			</div>
+			<div id="fps" style="position:absolute;top:0;left:0"></div>
+			<div id="main">
+				<h2 id="clock">
+					0:00
+				</h2>
+				
+				<canvas id="canvas" width="800" height="800"></canvas>
+				
+				<div id="playerInfo">
+					<div>
+						<h3>You</h3>
+						
+						<dl>
+							<dt>Name:</dt>
+							<dd id="p-name">Dan</dd>
+							
+							<dt>Kills:</dt>
+							<dd id="p-kills">Lots</dd>
+							
+							<dt>Points:</dt>
+							<dd id="p-points"></dd>
+						</dl>
+					</div>
+					
+					<div>
+						<h3>Them</h3>
+						
+						<dl>
+							<dt>Name:</dt>
+							<dd id="e1-name"></dd>
+							
+							<dt>Kills:</dt>
+							<dd id="e1-kills"></dd>
+							
+							<dt>Points:</dt>
+							<dd id="e1-points"></dd>
+						</dl>
+						
+						<dl>
+							<dt>Name:</dt>
+							<dd id="e2-name"></dd>
+							
+							<dt>Kills:</dt>
+							<dd id="e2-kills"></dd>
+							
+							<dt>Points:</dt>
+							<dd id="e2-points"></dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			
+			<ul id="instructions">
+				<li>You will move forward automatically.</li>
+				<li>Use left and right arrows to turn.</li>
+				<li>Avoid enemy tails.</li>
+				<li>Get points by staying alive.</li>
+				<li>Kill enemies for bonus points.</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			function drawTest(context)
+			{
+				context.strokeStyle = "#000000";
+				context.fillStyle = "#FFFF00";
+				context.beginPath();
+				context.arc(100,100,50,0,Math.PI*2,true);
+				context.closePath();
+				context.stroke();
+				context.fill();
+			}
+			
+			var canvasHelper = new CanvasHelper({
+				onDraw:drawTest,
+				FPS:30,
+				offscreenSize:
+				{
+					width:800,
+					height:600
+				},
+				target:document.getElementById("canvas"),
+				targetSize:
+				{
+					width:800,
+					height:600
+				}
+			});
+			setInterval(function(){
+				document.getElementById("fps").innerHTML = canvasHelper.FPS();
+			}, 1000);
+		</script>
+	</body>
+</html>
