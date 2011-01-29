@@ -2,6 +2,9 @@
 <html>
 <head>
     <title>light cycles</title>
+	<script type="text/javascript" src="js/stringbuilder.js"></script>
+	<script type="text/javascript" src="js/logger.js"></script>
+	<script type="text/javascript" src="js/canvasHelper.js"></script>
 </head>
 <style type="text/css">
 	body
@@ -44,6 +47,9 @@
 	}
 </style>
 <script type="text/javascript">
+	var IndexLogger = new Logger("IndexPage");
+	IndexLogger.debug("testing the logger");
+
 	login = function() {
 		var nickname = document.getElementById('nickname').value;
 		var colourList = document.getElementById('colour');	
