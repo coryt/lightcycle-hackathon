@@ -3,7 +3,82 @@
 <head>
     <title>light cycles</title>
 </head>
+<style type="text/css">
+	body
+	{
+		font-family: Arial;
+	}
+
+	h2
+	{
+		font-size: 18px;;
+		text-align: center;
+		margin-bottom: 32px;
+	}
+
+	.login
+	{
+		width: 350px;
+		margin: 0 auto 0 auto;
+	} 
+	
+	.login div span,
+	.login div input[type=text],
+	.login div select
+	{
+		display: block;
+		width: 49%;
+		float: left;
+	}
+	
+	.login div
+	{
+		clear: both;
+	}
+	
+	.login div input[type=submit]
+	{		
+		display: block;
+		width: 100px;
+		margin: 64px auto 0 auto;
+	}
+</style>
+<script type="text/javascript">
+	login = function() {
+		var nickname = document.getElementById('nickname').value;
+		var colourList = document.getElementById('colour');	
+		var colour = colourList.options[colourList.selectedIndex].value;
+		var server = document.getElementById('server').value;
+
+		document.location.href = 'play.html?nickname=' + nickname + '&colour=' + colour + '&server=' + server;
+			
+		return false; // avoid postback
+	};
+</script>
 <body>
-    <canvas id="game" />
+	<h2>
+		Light Cycles!
+	</h2>
+	<div class="login">
+		<div>
+			<span>Nickname</span>
+			<input type="text" id="nickname" />
+		</div>
+		<div>
+			<span>Colour</span>
+			<select id="colour">
+				<option>Red</option>
+				<option>Blue</option>
+				<option>Green</option>
+			</select>
+		</div>
+		<div>
+			<span>Server</span>
+			<input type="text" id="server" />
+		</div>
+		<div>
+			<input type="submit" value="JOIN!" onclick="return login()" />
+		</div>
+	</div>
 </body>
 </html>
