@@ -115,10 +115,11 @@ NotificationServer.prototype.getPlayers = function() {
 };
 
 /**
- * @returns {object} A single player.
+ * @id player connection id
+ * @player {object} player
  */
-NotificationServer.prototype.getPlayer = function(id) {
-  return this.players_[id];
+NotificationServer.prototype.setPlayer = function(id, player) {
+  this.players_[id] = player;
 };
 
 /**
@@ -136,7 +137,6 @@ NotificationServer.prototype.broadcast = function(message, command, protocol) {
   this.log_.push(message);
   this.server_.broadcast(JSON.stringify({
     command: command ? command : NotificationCommand.STATE,
-    protocol: protocol ? protocol : NotificationProtocol.GAME,
     message: message
   }));
 };
@@ -145,9 +145,9 @@ NotificationServer.prototype.broadcast = function(message, command, protocol) {
  * Broadcast a message to a specific players
  */
 NotificationServer.prototype.send = function(conn, message, command, protocol) {
+  this.log_.push(message);
   conn.send(JSON.stringify({
     command: command ? command : NotifiationCommand.STATE,
-    protocol: protocol ? protocol : NotificationProtocol.GAME,
     message: message
   }));
 };
