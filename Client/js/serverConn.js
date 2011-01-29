@@ -37,12 +37,12 @@ ServerConn.prototype.onConnectionOpen_ = function() {
 
 /** Internal WebSocket handler for closed connections */
 ServerConn.prototype.onServerClose_ = function() {
-    console.log('ServerConn: server disconnected');
+    console.log('ServerConn: Server disconnected');
 }
 
 /** Internal WebSocket handler for server errors */
 ServerConn.prototype.onServerError_ = function(error) {
-    console.error('ServerConn: ' + error);
+    console.error('ServerConn: Error ' + error);
 }
 
 /** Internal WebSocket handler for server messages */
