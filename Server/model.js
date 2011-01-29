@@ -1,12 +1,18 @@
-function GameModel()
+function GameModel(playerArray)
 {
 	var self = this;
-	var players = new Array();
+	var players = initPlayers(playerArray);
 	var trails = new Array();
 	var radius = 500;
 	var playerSpeed = 10;
 	var playerTurnAngle = 15;
 	var lastUpdate;
+	
+	function initPlayers(playersArray)
+	{
+		// TODO: import player data
+		players = new Array();
+	}
 	
 	self.update = function(dt)
 	{
