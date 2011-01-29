@@ -25,7 +25,7 @@ ServerConn.prototype.start = function() {
 
 /** Internal WebSocket handler of new connections */
 ServerConn.prototype.onConnectionOpen_ = function() {
-    console.log('connect: ' + this.name);
+    console.log('ServerConn: Connected ' + this.name);
     this.connection.send(JSON.stringify({
         command: RequestType.JOIN,
         player: {
