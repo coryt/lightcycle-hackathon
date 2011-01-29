@@ -17,13 +17,13 @@ function play_init()
 		canvasSize = width;
 	}
 	
-	var canvas = document.getElementById("backgroundCanvas");
-	canvas.style.width = canvasSize + "px";
-	canvas.style.height = canvasSize + "px";
+	var bgCanvas = document.getElementById("backgroundCanvas");
+	bgCanvas.style.width = canvasSize + "px";
+	bgCanvas.style.height = canvasSize + "px";
 	
-	var canvas = document.getElementById("foregroundCanvas");
-	canvas.style.width = canvasSize + "px";
-	canvas.style.height = canvasSize + "px";
+	var fgCanvas = document.getElementById("foregroundCanvas");
+	fgCanvas.style.width = canvasSize + "px";
+	fgCanvas.style.height = canvasSize + "px";
 	
 	var playerInfo = document.getElementById("playerInfo");
 	playerInfo.style.height = canvasSize + "px";

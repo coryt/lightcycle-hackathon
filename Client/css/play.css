@@ -78,6 +78,10 @@ canvas {
 	border-right: 1px solid #000000;
 }
 
+canvas#backgroundCanvas {
+	position: absolute;
+}
+
 div#playerInfo {
 	float: left;
 	width: 228px;
