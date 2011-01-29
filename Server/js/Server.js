@@ -173,6 +173,6 @@ NotificationServer.prototype.send = function(conn, message, command) {
  */
 NotificationServer.prototype.gameStart = function()
 {
-	this.gameModel = new GameModel(this.players_);
+	this.gameModel = gg.createGame(this.players_);
 	// TODO: start updating the game model in a loop
 }
