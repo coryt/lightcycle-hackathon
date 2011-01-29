@@ -1,5 +1,4 @@
 var ws = require('./lib/websocket/ws/server');
-require('./protocol');
 require('./commands');
 require('./functions');
 require('./model');
@@ -92,10 +91,10 @@ NotificationServer.prototype.onMessage = function(conn, message) {
  * Fires when a user is being disconnected.
  */
 NotificationServer.prototype.onDisconnect = function(conn) {
-  var player = this.players_[conn.id].name;
+  //var player = this.players_[conn.id].name;
   syslog('onDisconnect: ' + player);
   this.broadcast({player: player, id: conn.id}, NotificationCommand.PART);
-  delete this.players_[conn.id];
+  //delete this.players_[conn.id];
 };
 
 /**
@@ -120,8 +119,8 @@ NotificationServer.prototype.getPlayers = function() {
  * @player {object} player
  */
 NotificationServer.prototype.setPlayer = function(player) {
-  this.players_.push(player);
-  this.log_.push("Player Registered " + player.name);
+  //this.log_.push("Player Registered " + player.name);
+  //this.players_.push(player);
 };
 
 /**
@@ -142,14 +141,14 @@ NotificationServer.prototype.getPlayer = function(name) {
  */
 NotificationServer.prototype.start = function() {
   this.server_.listen(this.port_);
-  this.log_.push("Server Started "+new Date());
+  //this.log_.push("Server Started "+new Date());
 };
 
 /**
  * Broadcast a message to all players
  */
 NotificationServer.prototype.broadcast = function(message, command) {
-  this.log_.push(message);
+  //this.log_.push(message);
   this.server_.broadcast(JSON.stringify({
     command: command ? command : NotificationCommand.STATE,
     message: message
@@ -160,7 +159,7 @@ NotificationServer.prototype.broadcast = function(message, command) {
  * Broadcast a message to a specific players
  */
 NotificationServer.prototype.send = function(conn, message, command) {
-  this.log_.push(message);
+  //this.log_.push(message);
   conn.send(JSON.stringify({
     command: command ? command : NotifiationCommand.STATE,
     message: message
@@ -170,8 +169,7 @@ NotificationServer.prototype.send = function(conn, message, command) {
 /**
  * Start the game
  */
-NotificationServer.prototype.gameStart()
-{
+NotificationServer.prototype.gameStart = function(){
 	this.gameModel = new GameModel(this.players);
 	// TODO: start updating the game model in a loop
 }
