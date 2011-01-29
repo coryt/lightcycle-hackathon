@@ -168,3 +168,8 @@ function Actor()
 	self.status = 0;
 	self.points = 0;
 }
+
+exports.GameModel = GameModel;
+exports.createGame = function(playerArray) {
+	return new GameModel(playerArray);
+};
