@@ -73,12 +73,9 @@ lightTrail.prototype =
                 scope.context.closePath();
 			}
 
-			var xPos = this.positionX;
-			var yPos = this.positionY;
-	
 			context.save();
-			context.translate(xPos, yPos);
-			context.rotate(scope.determineAngle(xPos, yPos, xPos, yPos));
+			context.translate(this.positionX, this.positionY);
+			context.rotate(scope.angle);
             scope.context.drawImage(scope.lightCycle, 0,  0, 33.33, 12.66);
 			context.restore();
 		}
@@ -106,7 +103,7 @@ lightTrail.prototype =
 			//wtf?
 		}
 		return angle;
-	}
+	},
 
 	destroy: function()
 	{
@@ -131,22 +128,20 @@ lightTrail.prototype =
     //new coordinates moved to
 	stroke: function( positionX, positionY )
 	{
-        /*//To Do uncomment when angle function available function is
-        angle = getAngle(positionX, positionY);
+        var angle = this.determineAngle(this.positionX, this.positionY, positionX, positionY);
 
-        if (angle > 0 && angle <= 45){
+        if ((angle > 0 && angle <= 90) || (angle > 135 && angle <= 180)){
             BRUSH_PRESSURE = 30;
-        }else if(angle > 45 && angle <= 90){
+        }else if((angle > 90 && angle <= 135) || (angle > 180 && angle < 360)){
             BRUSH_PRESSURE = 15;
         }else{
-            //angle is 0
+            //angle is 0 or 360
             BRUSH_PRESSURE = 1;
         }
 
 		this.positionX = positionX;
 		this.positionY = positionY;
-        */
-
+        this.angle = angle;
 
 	},
 
