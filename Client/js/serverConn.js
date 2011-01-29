@@ -14,11 +14,12 @@ ServerConn.prototype.start = function() {
 }
 
 ServerConn.prototype.onConnectionOpen_ = function() {
-    console.log('connect: ' + name);
+    console.log('connect: ' + this.name);
     this.connection.send(JSON.stringify({
-        Name: name,
-        Color: color
-    }))
+        command: RequestType.JOIN,
+        name: this.name,
+        color: this.color
+    }));
 }
 
 ServerConn.prototype.onServerClose_ = function() {
@@ -40,16 +41,32 @@ ServerConn.prototype.onServerError_ = function(error) {
 
 ServerConn.prototype.onMessage_ = function(e) {
     console.log(e.data);
-    if (this.onMessage) {
-        var obj = JSON.parse(e.data);
-        this.onMessage(obj);
+    var obj = JSON.parse(e.data);
+
+    switch (obj.Type) {
+        case ResponseType.STATE:
+            console.log('STATE response');
+            if (this.onState) {
+                onState(obj);
+            }
+            break;
+        default:
+            console.error('Invalid response type: ' + obj.Type);
+            break;
     }
 }
+
+ServerConn.prototype.onState = function(state) { }
 
 ServerConn.prototype.isActive = function() {
     return this.connection.readyState == 1;
 }
 
-ServerConn.prototype.send = function(obj) {
-    return this.connection.send(obj);
+ServerConn.prototype.notify(action) {
+    console.log('Event: ' + name + ', ' + action);
+    this.connection.send(JSON.stringify({
+        command: RequestType.EVENT,
+        name: this.name,
+        action: action
+    }));
 }
