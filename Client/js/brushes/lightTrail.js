@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var BRUSH_SIZE = 1,
+var BRUSH_SIZE = 3,
     BRUSH_PRESSURE = 1;
 
 function lightTrail( context, color )
@@ -18,7 +18,7 @@ lightTrail.prototype =
 {
 	context: null,
 
-	mouseX: null, mouseY: null,
+	positionX: null, positionY: null,
 
 	painters: null,
 
@@ -33,8 +33,8 @@ lightTrail.prototype =
 		this.context = context;
 		this.context.globalCompositeOperation = 'source-over';
 
-        this.mouseX = 400;
-		this.mouseY = 400;
+        this.positionX = 400;
+		this.positionY = 400;
 
         if (!color && color.length != 0){
             this.color = color;
@@ -61,8 +61,8 @@ lightTrail.prototype =
 				scope.context.beginPath();
 				scope.context.moveTo(scope.painters[i].dx, scope.painters[i].dy);
 
-				scope.painters[i].dx -= scope.painters[i].ax = (scope.painters[i].ax + (scope.painters[i].dx - scope.mouseX) * scope.painters[i].div) * scope.painters[i].ease;
-				scope.painters[i].dy -= scope.painters[i].ay = (scope.painters[i].ay + (scope.painters[i].dy - scope.mouseY) * scope.painters[i].div) * scope.painters[i].ease;
+				scope.painters[i].dx -= scope.painters[i].ax = (scope.painters[i].ax + (scope.painters[i].dx - scope.positionX) * scope.painters[i].div) * scope.painters[i].ease;
+				scope.painters[i].dy -= scope.painters[i].ay = (scope.painters[i].ay + (scope.painters[i].dy - scope.positionY) * scope.painters[i].div) * scope.painters[i].ease;
 				scope.context.lineTo(scope.painters[i].dx, scope.painters[i].dy);
 				scope.context.stroke();
 			}
@@ -75,25 +75,25 @@ lightTrail.prototype =
 	},
 
     //coordinates where the player starts
-	strokeStart: function( mouseX, mouseY )
+	strokeStart: function( positionX, positionY )
 	{
-		this.mouseX = mouseX;
-		this.mouseY = mouseY
+		this.positionX = positionX;
+		this.positionY = positionY;
 
 		for (var i = 0; i < this.painters.length; i++)
 		{
-			this.painters[i].dx = mouseX;
-			this.painters[i].dy = mouseY;
+			this.painters[i].dx = positionX;
+			this.painters[i].dy = positionY;
 		}
 
 		this.shouldDraw = true;
 	},
 
     //new coordinates moved to
-	stroke: function( mouseX, mouseY )
+	stroke: function( positionX, positionY )
 	{
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
+		this.positionX = positionX;
+		this.positionY = positionY;
 	},
 
     //end
