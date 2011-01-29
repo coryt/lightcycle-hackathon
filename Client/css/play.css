@@ -6,13 +6,27 @@ body {
 	font-family: Calibri, sans-serif;
 }
 
+div#loadingMessage {
+	width: 100%;
+	height: 100%;
+}
+
+div#loadingMessage p {
+	margin: 5px;
+	height: 100%;
+}
+
 div#page, h1 {
-	width: 1127px;
+	/* shown at runtime */
+	display: none;
+	
+	/* width is boosted at runtime */
+	/* start with canvas's margin-left + div#playerInfo's width/padding */
+	width: 350px;
 	margin: 0 auto;
 	
 	border-left: 2px solid #999999;
 	border-right: 2px solid #999999;
-	
 }
 
 div#page {
@@ -20,6 +34,8 @@ div#page {
 }
 
 h1 {
+	height: 32px;
+	
 	font-size: 24px;
 	font-weight: bold;
 	
@@ -27,9 +43,10 @@ h1 {
 }
 
 h2 {
-	width: 1127px;
+	width: 100%;
+	height: 59px;
 	margin: 0;
-	padding: 40px 0;
+	padding: 10px 0;
 	
 	text-align: center;
 	font-size: 48px;
@@ -48,10 +65,11 @@ div#fps {
 canvas {
 	display: block;
 	float: left;
-	
-	width: 800px;
-	height: 800px;
 	margin-left: 100px;
+	
+	/* width and height are added at runtime */
+	width: 0;
+	height: 0;
 	
 	background-color: #FFCCFF;
 	border-left: 1px solid #000000;
@@ -60,8 +78,12 @@ canvas {
 
 div#playerInfo {
 	float: left;
-	width: 205px;
+	width: 228px;
 	padding-left: 20px;
+	
+	/* height added at runtime */
+	height: 0px;
+	overflow-y: auto;
 }
 
 ul#instructions {
@@ -81,8 +103,9 @@ dt {
 dd {
 	display: inline-block;
 	width: 150px;
-	
 	margin-left: 0;
+	
+	font-weight: bold;
 }
 
 div.clear {

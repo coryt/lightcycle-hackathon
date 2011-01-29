@@ -12,7 +12,7 @@ require('./model');
 NotificationServer = function(port) {
   this.port_ = port;
   this.server_ = ws.createServer();
-  this.players_ = {};
+  this.players_ = [];
   this.log_ = [];
   this.commands_ = {};
   this.gameModel = null;
@@ -25,9 +25,9 @@ NotificationServer = function(port) {
 NotificationServer.prototype.init = function() {
   
   this.commands_ = {
-    'JOIN': JoinCommand,
-    'ACTION': ActionCommand,
-    'STATE': GameStateCommand
+    'JOIN': JoinCommand
+    //'ACTION': ActionCommand,
+    //'STATE': GameStateCommand
   };
   
   this.server_.addListener('request', this.onWebRequest.bind(this));
@@ -76,12 +76,13 @@ NotificationServer.prototype.onConnection = function(conn) {
  * Fires when the connection sent a message.
  */
 NotificationServer.prototype.onMessage = function(conn, message) {
-  var player = this.players_[conn.id];
   syslog('> ' + message);
   var obj = JSON.parse(message);
+  syslog('> ' + obj);
+  syslog('> ' + obj.player);
   var cmd = this.commands_[obj.command];
   if (cmd) {
-    cmd.onMessage(this, conn, obj.message);
+    cmd.onMessage(this, conn, obj.player);
   } else {
     syslog('ERROR MESSAGE: ' + obj.command)
   }
@@ -118,8 +119,22 @@ NotificationServer.prototype.getPlayers = function() {
  * @id player connection id
  * @player {object} player
  */
-NotificationServer.prototype.setPlayer = function(id, player) {
-  this.players_[id] = player;
+NotificationServer.prototype.setPlayer = function(player) {
+  this.players_.push(player);
+  this.log_.push("Player Registered " + player.name);
+};
+
+/**
+ * @returns {object} player
+ */
+NotificationServer.prototype.getPlayer = function(name) {
+    var player;
+    for(var p = 0; p<=this.players_.length; p++){
+      if(this.players_[p].name = name) {
+          player = this.players_[p];
+      }
+  }
+  return player;
 };
 
 /**
@@ -133,7 +148,7 @@ NotificationServer.prototype.start = function() {
 /**
  * Broadcast a message to all players
  */
-NotificationServer.prototype.broadcast = function(message, command, protocol) {
+NotificationServer.prototype.broadcast = function(message, command) {
   this.log_.push(message);
   this.server_.broadcast(JSON.stringify({
     command: command ? command : NotificationCommand.STATE,
@@ -144,7 +159,7 @@ NotificationServer.prototype.broadcast = function(message, command, protocol) {
 /**
  * Broadcast a message to a specific players
  */
-NotificationServer.prototype.send = function(conn, message, command, protocol) {
+NotificationServer.prototype.send = function(conn, message, command) {
   this.log_.push(message);
   conn.send(JSON.stringify({
     command: command ? command : NotifiationCommand.STATE,

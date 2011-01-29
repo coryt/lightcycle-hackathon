@@ -16,3 +16,7 @@ GameState.prototype.addPlayer = function(player) {
 GameState.prototype.findPlayer = function(name) {
     return this.players[name];
 }
+
+GameState.prototype.getPlayers = function() {
+    return this.players;
+}

@@ -6,6 +6,8 @@
  * conn.start();
  * conn.notify(Action.LEFT);
  * conn.notify(Action.RIGHT);
+ * conn.notifyLeft();
+ * conn.notifyRight();
  */
 
 /** Instantiate a connection */
@@ -25,38 +27,39 @@ ServerConn.prototype.start = function() {
 
 /** Internal WebSocket handler of new connections */
 ServerConn.prototype.onConnectionOpen_ = function() {
-    console.log('connect: ' + this.name);
-    this.connection.send(JSON.stringify({
+    console.log('ServerConn: Connected ' + this.name);
+    this.send_({
         command: RequestType.JOIN,
         player: {
             name: this.name,
             color: this.color
         }
-    }));
+    });
 }
 
 /** Internal WebSocket handler for closed connections */
 ServerConn.prototype.onServerClose_ = function() {
-    console.log('server disconnected');
+    console.log('ServerConn: Server disconnected');
 }
 
 /** Internal WebSocket handler for server errors */
 ServerConn.prototype.onServerError_ = function(error) {
-    console.error(error);
+    console.error('ServerConn: Error ' + error);
 }
 
 /** Internal WebSocket handler for server messages */
 ServerConn.prototype.onMessage_ = function(e) {
-    console.log(e + ' --- ' + e.data);
+    console.log('ServerConn: Received message ' + e + ' : ' + e.data);
     this.parseMessage_(e.data);
 }
 
+/** Internal parse message */
 ServerConn.prototype.parseMessage_ = function(data) {
     var obj = JSON.parse(data);
 
     switch (obj.command) {
         case ResponseType.STATE:
-            console.log('STATE response');
+            console.log('ServerConn: Received STATE response');
             var msg = obj.message;
             if (this.onState && msg) {
                 var state = new GameState(msg.status);
@@ -73,9 +76,16 @@ ServerConn.prototype.parseMessage_ = function(data) {
             onState(state);
             break;
         default:
-            console.error('Invalid response type: ' + obj.command);
+            console.error('ServerConn: Invalid response type: ' + obj.command);
             break;
     }
+}
+
+/** Internal send to server */
+ServerConn.prototype.send_ = function(obj) {
+    var json = JSON.stringify(obj);
+    console.log('ServerConn: Sending ' + json);
+    this.connection.send(json);
 }
 
 /** Exposed GameState handler */
@@ -88,12 +98,21 @@ ServerConn.prototype.isActive = function() {
 
 /** Send event to server */
 ServerConn.prototype.notify = function(action) {
-    console.log('Event: ' + name + ', ' + action);
-    this.connection.send(JSON.stringify({
+    this.send_({
         command: RequestType.ACTION,
         player: {
             name: this.name,
             action: action
         }
-    }));
+    });
+}
+
+/** Send LEFT event to server */
+ServerConn.prototype.notifyLeft = function() {
+    this.notify_(Action.LEFT);
+}
+
+/** Send RIGHT event to server */
+ServerConn.prototype.notifyRight = function() {
+    this.notify_(Action.RIGHT);
 }
