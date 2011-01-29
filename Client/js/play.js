@@ -61,7 +61,7 @@ function play_init()
 	lt.stroke(100,100);	
 	lt.stroke(90,75);
 	
-	// Player name initialization.
+	// Player name and color initialization.
 	var tmpPlayer = new Player({
 		Nickname: queryString("nickname"),
 		Colour: queryString("colour"),
@@ -69,7 +69,13 @@ function play_init()
 		StartY: 0
 	});
 	
-	document.getElementById('p-name').innerHTML = tmpPlayer.GetNickname();
+	var pName = document.getElementById('p-name');
+	var pKills = document.getElementById('p-kills');
+	var pPoints = document.getElementById('p-points');
+	pName.innerHTML = tmpPlayer.GetNickname();
+	pName.style.color = "#" + tmpPlayer.GetColour();
+	pKills.style.color = "#" + tmpPlayer.GetColour();
+	pPoints.style.color = "#" + tmpPlayer.GetColour();
 	
 	// Now that we have everything sized properly, show the game.
 	document.getElementById("loadingMessage").style.display = "none";
