@@ -87,20 +87,16 @@ lightTrail.prototype =
 		var dy = y2-y1;
 		var angle = 0;
 		if (dx == 0)
-		{angle=dy>0?90:-90;}
+		{
+			angle=dy>0?Math.PI/2:Math.PI*3/2;
+		}
 		else if (dy == 0)
-		{angle=dx>0?0:-180;}
-		else if (dx > 0 && dy > 0)
-		{angle=45;}
-		else if (dx < 0 && dy > 0)
-		{angle=135;}
-		else if (dx > 0 && dy < 0)
-		{angle=-45;}
-		else if (dx < 0 && dy < 0)
-		{angle=-135;}
+		{
+			angle=dx>0?0:Math.PI;
+		}
 		else
 		{
-			//wtf?
+			angle=Math.asin(dy/dx);
 		}
 		return angle;
 	},
