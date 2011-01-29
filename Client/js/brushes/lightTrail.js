@@ -53,8 +53,8 @@ lightTrail.prototype =
 		{
 			var i;
 
-			this.context.lineWidth = BRUSH_SIZE;
-			this.context.strokeStyle = "rgba(" + this.color[0] + ", " + this.color[1] + ", " + this.color[2] + ", " + 0.05 * BRUSH_PRESSURE + ")";
+			scope.context.lineWidth = BRUSH_SIZE;
+			scope.context.strokeStyle = "rgba(" + scope.color[0] + ", " + scope.color[1] + ", " + scope.color[2] + ", " + 0.05 * BRUSH_PRESSURE + ")";
 
 			for (i = 0; i < scope.painters.length; i++)
 			{

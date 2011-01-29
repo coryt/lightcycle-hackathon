@@ -53,6 +53,7 @@ function CanvasHelper(configOptions)
 		{
 			log.error("Could not create draw frame interval",err);
 		}
+		drawFrame();
 	}
 	
 	//draws a frame then copies it to the main canvas
