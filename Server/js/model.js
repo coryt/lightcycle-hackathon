@@ -6,7 +6,8 @@ function GameModel(playerArray)
 	var radius = 500;
 	var playerSpeed = 10;
 	var playerTurnAngle = 15;
-	var lastUpdate;
+	var nextScoreTime;
+	var scorePeriod = 1000;
 	
 	function initPlayers(playersArray)
 	{
@@ -27,6 +28,8 @@ function GameModel(playerArray)
 	
 	self.update = function(dt)
 	{
+		var theTime = new Date().getTime();
+		
 		// update the game state
 		for (actor in players)
 		{
@@ -38,6 +41,11 @@ function GameModel(playerArray)
 				{
 					// player has died
 				}
+			}
+			if(theTime > nextScoreTime)
+			{
+				actor.score += 1;
+				nextScoreTime += score_period;
 			}
 		}
 		return players;
@@ -158,4 +166,5 @@ function Actor()
 	self.direction = 0.0;
 	self.action = 0;
 	self.status = 0;
+	self.points = 0;
 }
