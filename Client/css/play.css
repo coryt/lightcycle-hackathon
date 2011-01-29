@@ -103,8 +103,9 @@ dt {
 dd {
 	display: inline-block;
 	width: 150px;
-	
 	margin-left: 0;
+	
+	font-weight: bold;
 }
 
 div.clear {
