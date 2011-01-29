@@ -9,24 +9,10 @@ function GameModel(playerArray)
 	var nextScoreTime;
 	var scorePeriod = 1000;
 	
-	function initPlayers(playersArray)
-	{
-		p = new Array();
-		// import player data
-		for (serverPlayer in playersArray)
-		{
-			var gamePlayer = new Actor();
-			gamePlayer.id = serverPlayer.id;
-			gamePlayer.direction = 0.0;
-			gamePlayer.location = new Vector(0.0,0.0);
-			gamePlayer.status = 1;
-			
-			p.push(gamePlayer);
-		}
-		return p;
-	}
 	
-	self.update = function(dt)
+};
+
+this.update = function(dt)
 	{
 		var theTime = new Date().getTime();
 		
@@ -50,54 +36,6 @@ function GameModel(playerArray)
 		}
 		return players;
 	};
-	
-	
-	function calculatePlayerPosition(actor, dt)
-	{
-		// turn
-		var dir;
-		if (actor.action == 1)
-		{
-			// turn left
-			dir = actor.direction - playerTurnAngle*dt;
-		}
-		else if (actor.action == 2)
-		{
-			// turn right
-			dir = actor.direction + playerTurnAngle*dt;
-		}
-		// move forward
-		var finalPos = new Vector(actor.location.x + playerSpeed * dt * cos(dir),
-		actor.location.y + playerSpeed * dt * sin(dir));
-		// TODO: detect collisions
-		var newSeg = new Segment(actor.location, finalPos);
-		if(outOfBounds(actor))
-		{
-			actor.status = 0;
-			return actor;
-		}
-		for (seg in trails)
-		{
-			if(intersect(newSeg, seg))
-			{
-				// player has crashed!
-				actor.status = 0;
-			}
-			else
-			{
-				trails.push(newSeg);
-			}
-		}
-		return actor;
-	}
-	
-	function outOfBounds(player)
-	{
-		var center = new Vector(radius, radius);
-		var diff = center.subtract(player.location);
-		return (Math.sqrt(diff.x*diff.x + diff.y*diff.y) >= radius);
-	}
-};
 
 function Segment(p1, p2){
   this.p1 = p1;
@@ -167,4 +105,69 @@ function Actor()
 	self.action = 0;
 	self.status = 0;
 	self.points = 0;
+}
+GameMode.prototype = 
+{
+	initPlayers: function(playersArray)
+	{
+		p = new Array();
+		// import player data
+		for (serverPlayer in playersArray)
+		{
+			var gamePlayer = new Actor();
+			gamePlayer.id = serverPlayer.id;
+			gamePlayer.direction = 0.0;
+			gamePlayer.location = new Vector(0.0,0.0);
+			gamePlayer.status = 1;
+			
+			p.push(gamePlayer);
+		}
+		return p;
+	}
+
+	calculatePlayerPosition: function(actor, dt)
+	{
+		// turn
+		var dir;
+		if (actor.action == 1)
+		{
+			// turn left
+			dir = actor.direction - playerTurnAngle*dt;
+		}
+		else if (actor.action == 2)
+		{
+			// turn right
+			dir = actor.direction + playerTurnAngle*dt;
+		}
+		// move forward
+		var finalPos = new Vector(actor.location.x + playerSpeed * dt * cos(dir),
+		actor.location.y + playerSpeed * dt * sin(dir));
+		// TODO: detect collisions
+		var newSeg = new Segment(actor.location, finalPos);
+		if(outOfBounds(actor))
+		{
+			actor.status = 0;
+			return actor;
+		}
+		for (seg in trails)
+		{
+			if(intersect(newSeg, seg))
+			{
+				// player has crashed!
+				actor.status = 0;
+			}
+			else
+			{
+				trails.push(newSeg);
+			}
+		}
+		return actor;
+	}
+	
+	outOfBounds: function(player)
+	{
+		var center = new Vector(radius, radius);
+		var diff = center.subtract(player.location);
+		return (Math.sqrt(diff.x*diff.x + diff.y*diff.y) >= radius);
+	}
 }

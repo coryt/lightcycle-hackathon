@@ -2,7 +2,7 @@ var ws = require('./lib/websocket/ws/server');
 require('./protocol');
 require('./commands');
 require('./functions');
-require('./model');
+var gg = require('./model');
 
 /**
  * Notification Server that uses HTML WebSockets for its main form of
@@ -17,6 +17,7 @@ NotificationServer = function(port) {
   this.commands_ = {};
   this.gameModel = null;
   this.init();
+  this.gameStart();
 };
 
 /**
@@ -155,8 +156,8 @@ NotificationServer.prototype.send = function(conn, message, command, protocol) {
 /**
  * Start the game
  */
-NotificationServer.prototype.gameStart()
+NotificationServer.prototype.gameStart = function()
 {
-	this.gameModel = new GameModel(this.players);
+	this.gameModel = new GameModel(this.players_);
 	// TODO: start updating the game model in a loop
 }
