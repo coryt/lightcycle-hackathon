@@ -28,8 +28,10 @@ ServerConn.prototype.onConnectionOpen_ = function() {
     console.log('connect: ' + this.name);
     this.connection.send(JSON.stringify({
         command: RequestType.JOIN,
-        name: this.name,
-        color: this.color
+        player: {
+            name: this.name,
+            color: this.color
+        }
     }));
 }
 
@@ -37,12 +39,14 @@ ServerConn.prototype.onConnectionOpen_ = function() {
 ServerConn.prototype.onServerClose_ = function() {
     console.log('server disconnected');
     if (window.webkitNotifications) {
+        /*
         var notification = webkitNotifications.createNotification(
                 null,
                 'Disconnected',
                 'Server disconnected'
         );
         notification.show();
+        */
     }
 }
 
@@ -64,7 +68,7 @@ ServerConn.prototype.onMessage_ = function(e) {
             }
             break;
         default:
-            console.error('Invalid response type: ' + obj.Type);
+            console.error('Invalid response type: ' + obj.command);
             break;
     }
 }
@@ -82,7 +86,9 @@ ServerConn.prototype.notify = function(action) {
     console.log('Event: ' + name + ', ' + action);
     this.connection.send(JSON.stringify({
         command: RequestType.ACTION,
-        name: this.name,
-        action: action
+        player: {
+            name: this.name,
+            action: action
+        }
     }));
 }
