@@ -2,6 +2,7 @@ var ws = require('./lib/websocket/ws/server');
 require('./protocol');
 require('./commands');
 require('./functions');
+require('./model');
 
 /**
  * Notification Server that uses HTML WebSockets for its main form of
@@ -14,6 +15,7 @@ NotificationServer = function(port) {
   this.players_ = {};
   this.log_ = [];
   this.commands_ = {};
+  this.gameModel = null;
   this.init();
 };
 
@@ -113,10 +115,11 @@ NotificationServer.prototype.getPlayers = function() {
 };
 
 /**
- * @returns {object} A single player.
+ * @id player connection id
+ * @player {object} player
  */
-NotificationServer.prototype.getPlayer = function(id) {
-  return this.players_[id];
+NotificationServer.prototype.setPlayer = function(id, player) {
+  this.players_[id] = player;
 };
 
 /**
@@ -134,7 +137,6 @@ NotificationServer.prototype.broadcast = function(message, command, protocol) {
   this.log_.push(message);
   this.server_.broadcast(JSON.stringify({
     command: command ? command : NotificationCommand.STATE,
-    protocol: protocol ? protocol : NotificationProtocol.GAME,
     message: message
   }));
 };
@@ -143,9 +145,18 @@ NotificationServer.prototype.broadcast = function(message, command, protocol) {
  * Broadcast a message to a specific players
  */
 NotificationServer.prototype.send = function(conn, message, command, protocol) {
+  this.log_.push(message);
   conn.send(JSON.stringify({
     command: command ? command : NotifiationCommand.STATE,
-    protocol: protocol ? protocol : NotificationProtocol.GAME,
     message: message
   }));
 };
+
+/**
+ * Start the game
+ */
+NotificationServer.prototype.gameStart()
+{
+	this.gameModel = new GameModel(this.players);
+	// TODO: start updating the game model in a loop
+}

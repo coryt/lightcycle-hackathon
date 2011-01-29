@@ -1,15 +1,35 @@
-function GameModel()
+function GameModel(playerArray)
 {
 	var self = this;
-	var players = new Array();
+	var players = initPlayers(playerArray);
 	var trails = new Array();
 	var radius = 500;
 	var playerSpeed = 10;
 	var playerTurnAngle = 15;
-	var lastUpdate;
+	var nextScoreTime;
+	var scorePeriod = 1000;
+	
+	function initPlayers(playersArray)
+	{
+		p = new Array();
+		// import player data
+		for (serverPlayer in playersArray)
+		{
+			var gamePlayer = new Actor();
+			gamePlayer.id = serverPlayer.id;
+			gamePlayer.direction = 0.0;
+			gamePlayer.location = new Vector(0.0,0.0);
+			gamePlayer.status = 1;
+			
+			p.push(gamePlayer);
+		}
+		return p;
+	}
 	
 	self.update = function(dt)
 	{
+		var theTime = new Date().getTime();
+		
 		// update the game state
 		for (actor in players)
 		{
@@ -21,6 +41,11 @@ function GameModel()
 				{
 					// player has died
 				}
+			}
+			if(theTime > nextScoreTime)
+			{
+				actor.score += 1;
+				nextScoreTime += score_period;
 			}
 		}
 		return players;
@@ -42,25 +67,35 @@ function GameModel()
 			dir = actor.direction + playerTurnAngle*dt;
 		}
 		// move forward
-		 var finalPos = new Vector(actor.location.x + playerSpeed * dt * cos(dir),
+		var finalPos = new Vector(actor.location.x + playerSpeed * dt * cos(dir),
 		actor.location.y + playerSpeed * dt * sin(dir));
 		// TODO: detect collisions
 		var newSeg = new Segment(actor.location, finalPos);
+		if(outOfBounds(actor))
+		{
+			actor.status = 0;
+			return actor;
+		}
 		for (seg in trails)
 		{
 			if(intersect(newSeg, seg))
 			{
 				// player has crashed!
+				actor.status = 0;
 			}
 			else
 			{
 				trails.push(newSeg);
 			}
 		}
-		
-		// TODO: add new segment to trails
-		
 		return actor;
+	}
+	
+	function outOfBounds(player)
+	{
+		var center = new Vector(radius, radius);
+		var diff = center.subtract(player.location);
+		return (Math.sqrt(diff.x*diff.x + diff.y*diff.y) >= radius);
 	}
 };
 
@@ -131,4 +166,5 @@ function Actor()
 	self.direction = 0.0;
 	self.action = 0;
 	self.status = 0;
+	self.points = 0;
 }
