@@ -33,8 +33,8 @@ lightTrail.prototype =
 		this.context = context;
 		this.context.globalCompositeOperation = 'source-over';
 
-        this.mouseX = 0;
-		this.mouseY = 0;
+        this.mouseX = 400;
+		this.mouseY = 400;
 
         if (!color && color.length != 0){
             this.color = color;
@@ -44,7 +44,7 @@ lightTrail.prototype =
 
 		for (var i = 0; i < 50; i++)
 		{
-			this.painters.push({ dx: 0, dy: 0, ax: 0, ay: 0, div: 0.1, ease: Math.random() * 0.2 + 0.6 });
+			this.painters.push({ dx: 400, dy: 400, ax: 0, ay: 0, div: 0.1, ease: Math.random() * 0.2 + 0.6 });
 		}
 
 		this.interval = setInterval( update, 1000/60 );
