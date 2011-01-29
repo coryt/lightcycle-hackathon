@@ -58,7 +58,7 @@ function CanvasHelper(configOptions)
 		_frameCount ++;
 		try
 		{
-			if (_onDrawCB)
+			if (_onDrawCB && _offscreenCanvasContext)
 			{
 				_onDrawCB(_offscreenCanvasContext);
 			}
@@ -90,7 +90,7 @@ function CanvasHelper(configOptions)
 	{
 		if (targetValue)
 		{
-			_targetFPS = Math.min(MAX_FPS0, Number(_targetFPS));
+			_targetFPS = Math.min(MAX_FPS, Number(_targetFPS));
 			updateDrawFrameInterval();
 		}
 		return _actualFPS;
@@ -154,6 +154,16 @@ function CanvasHelper(configOptions)
 	//sets up initial options
 	function init(configOptions)
 	{
+		_offscreenCanvas = document.createElement("canvas");
+		if (!_offscreenCanvas || !_offscreenCanvas.getContext)
+		{
+			throw ("Could not create canvas element");
+		}
+		_offscreenCanvasContext = _offscreenCanvas.getContext("2d");
+		if (!_offscreenCanvasContext)
+		{
+			throw ("Could not fetch graphics context");
+		}
 		if (configOptions)
 		{
 			if (configOptions.onDraw)
@@ -179,17 +189,6 @@ function CanvasHelper(configOptions)
 		}
 		_updateFrameRateInterval = setInterval(updateFrameRate, 5000);
 		updateDrawFrameInterval();
-		
-		_offscreenCanvas = document.createElement("canvas");
-		if (!offscreenCanvas || !offscreenCanvas.getContext)
-		{
-			throw ("Could not create canvas element");
-		}
-		_offscreenCanvasContext = _offscreenCanvas.getContext("2d");
-		if (!_offscreenCanvasContext)
-		{
-			throw ("Could not fetch graphics context");
-		}
 	}
 	init(configOptions);
 }
