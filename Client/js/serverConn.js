@@ -68,7 +68,27 @@ ServerConn.prototype.parseMessage_ = function(data) {
                     for (var i = 0; i < players.length; i ++) {
                         var player = players[i];
                         if (player) {
-                            state.addPlayer(player);
+                            var pos = player.position;
+                            var x = null;
+                            var y = null;
+                            if (pos) {
+                                var split = pos.split(',');
+                                if (split && split.length == 2) {
+                                    x = split[0];
+                                    y = split[1];
+                                }
+                            }
+                            var p = this.getPlayer({
+                                ID : player.id,
+                                Nickname : player.name,
+                                Colour : player.color,
+                                StartX : x,
+                                StartY : y,
+                                Direction : player.direction,
+                                Status : player.status
+                            });
+
+                            state.addPlayer(p);
                         }
                     }
                 }
@@ -115,4 +135,10 @@ ServerConn.prototype.notifyLeft = function() {
 /** Send RIGHT event to server */
 ServerConn.prototype.notifyRight = function() {
     this.notify_(Action.RIGHT);
+}
+
+/** Function to get or create a player given a set of properties. Can be overwritten. */
+ServerConn.prototype.getPlayer = function(props) {
+    var player = new Player(props);
+    return player;
 }
