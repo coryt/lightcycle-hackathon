@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var BRUSH_SIZE = 3,
+var BRUSH_SIZE = 5,
     BRUSH_PRESSURE = 1;
 
 function lightTrail( context, color )
@@ -24,9 +24,12 @@ lightTrail.prototype =
 
 	interval: null,
 
-    color:[0,0,0],
+    //173-216-230 light blue
+    color:[173,216,230],
 
     lightCycle: new Image() ,
+
+    angle: 0,
 
 	init: function( context, color )
 	{
@@ -40,7 +43,7 @@ lightTrail.prototype =
 
         if (!color && color.length != 0){
             scope.color = color;
-        }// else defaults to RGB 0,0,0
+        }// else defaults to light blue
 
 		this.painters = new Array();
 
@@ -67,6 +70,7 @@ lightTrail.prototype =
 				scope.painters[i].dy -= scope.painters[i].ay = (scope.painters[i].ay + (scope.painters[i].dy - scope.positionY) * scope.painters[i].div) * scope.painters[i].ease;
 				scope.context.lineTo(scope.painters[i].dx, scope.painters[i].dy);
 				scope.context.stroke();
+                scope.context.closePath();
 			}
 
             scope.context.drawImage(scope.lightCycle, scope.painters[i-1].dx,  scope.painters[i-1].dy, 33.33, 12.66);
@@ -96,8 +100,23 @@ lightTrail.prototype =
     //new coordinates moved to
 	stroke: function( positionX, positionY )
 	{
+        /*//To Do uncomment when angle function available function is
+        angle = getAngle(positionX, positionY);
+
+        if (angle > 0 && angle <= 45){
+            BRUSH_PRESSURE = 30;
+        }else if(angle > 45 && angle <= 90){
+            BRUSH_PRESSURE = 15;
+        }else{
+            //angle is 0
+            BRUSH_PRESSURE = 1;
+        }
+
 		this.positionX = positionX;
 		this.positionY = positionY;
+        */
+
+
 	},
 
     //end
