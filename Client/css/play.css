@@ -40,6 +40,11 @@ div#main {
 	border-bottom: 1px solid #000000;
 }
 
+div#fps {
+	position: absolute;
+	margin-left: 104px;
+}
+
 canvas {
 	display: block;
 	float: left;
