@@ -1,5 +1,4 @@
 var ws = require('./lib/websocket/ws/server');
-require('./protocol');
 require('./commands');
 require('./functions');
 var gg = require('./model');
