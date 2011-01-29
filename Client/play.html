@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Play Multiplayer LightCycle</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/play.css" />
+	</head>
+	
+	<body>
+		<div id="page">
+			<div id="header">
+				<h1>Multiplayer LightCycle</h1>
+			</div>
+			
+			<div id="main">
+				<h2 id="clock">
+					0:00
+				</h2>
+				
+				<canvas id="canvas"></canvas>
+				
+				<div id="playerInfo">
+					<div>
+						<h3>You</h3>
+						
+						<dl>
+							<dt>Name:</dt>
+							<dd id="p-name">Dan</dd>
+							
+							<dt>Kills:</dt>
+							<dd id="p-kills">Lots</dd>
+							
+							<dt>Points:</dt>
+							<dd id="p-points"></dd>
+						</dl>
+					</div>
+					
+					<div>
+						<h3>Them</h3>
+						
+						<dl>
+							<dt>Name:</dt>
+							<dd id="e1-name"></dd>
+							
+							<dt>Kills:</dt>
+							<dd id="e1-kills"></dd>
+							
+							<dt>Points:</dt>
+							<dd id="e1-points"></dd>
+						</dl>
+						
+						<dl>
+							<dt>Name:</dt>
+							<dd id="e2-name"></dd>
+							
+							<dt>Kills:</dt>
+							<dd id="e2-kills"></dd>
+							
+							<dt>Points:</dt>
+							<dd id="e2-points"></dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			
+			<ul id="instructions">
+				<li>You will move forward automatically.</li>
+				<li>Use left and right arrows to turn.</li>
+				<li>Avoid enemy tails.</li>
+				<li>Get points by staying alive.</li>
+				<li>Kill enemies for bonus points.</li>
+			</ul>
+		</div>
+	</body>
+</html>
