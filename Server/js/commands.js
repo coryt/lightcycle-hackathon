@@ -7,14 +7,12 @@ NotificationCommand = {
 
 JoinCommand = {};
 JoinCommand.onMessage = function(server, conn, message) {
-  var player = server.getPlayer(conn.id);
-    
-  // return the game state
+  // parse the player info and return the game state
   if (message && message != '') {
-    player  = Player(message.player);
+    server.setPlayer(conn.id, Player(message.player));
     server.log_.push("Registering Player: " + player.name);
   }
-  server.broadcast({status: "Closed", players: {}}, NotificationCommand.STATE);
+  server.broadcast({status: "Closed", players: server.players_}, NotificationCommand.STATE);
 };
 
 ActionCommand = {};
