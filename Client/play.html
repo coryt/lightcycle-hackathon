@@ -8,27 +8,19 @@
 		<script type="text/javascript" src="js/logger.js"></script>
 		<script type="text/javascript" src="js/miscHelpers.js"></script>
 		<script type="text/javascript" src="js/canvasHelper.js"></script>
-		<script type="text/javascript">
-			var tmpPlayer = new Player({
-				Nickname: queryString("nickname"),
-				Colour: queryString("colour"),
-				StartX: 0,
-				StartY: 0
-			});
-			
-			window.onload = function() {
-				document.getElementById('p-name').innerHTML = tmpPlayer.GetNickname();
-			}			
-		</script>
-		
+		<script type="text/javascript" src="js/play.js"></script>
+		<script type="text/javascript" src="js/drawGameBoard.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/play.css" />
 	</head>
 	
-	<body>
-		<h1>Multiplayer LightCycle</h1>
+	<body onload="play_init()">
+		<div id="loadingMessage">
+			<p>Loading...</p>
+		</div>
+	
+		<h1 id="title">Multiplayer LightCycle</h1>
 			
 		<div id="page">
-			
 			<h2 id="clock">0:00</h2>
 			
 			<div id="main">
@@ -90,44 +82,5 @@
 				<li>Kill enemies for bonus points.</li>
 			</ul>
 		</div>
-		
-		<script type="text/javascript">
-			function drawTest(context)
-			{
-				context.strokeStyle = "#000000";
-				context.fillStyle = "#FFFF00";
-				context.beginPath();
-				context.arc(100,100,50,0,Math.PI*2,true);
-				context.closePath();
-				context.stroke();
-				context.fill();
-			}
-			
-			var canvasHelper = new CanvasHelper({
-				onDraw:drawTest,
-				FPS:30,
-				offscreenSize:
-				{
-					width:800,
-					height:800
-				},
-				target:document.getElementById("canvas"),
-				targetSize:
-				{
-					width:800,
-					height:800
-				}
-			});
-			setInterval(function(){
-				document.getElementById("fps").innerHTML = canvasHelper.FPS();
-			}, 1000);
-			
-			//console.log(document.getElementById("canvas").getContext("2d"));
-			var lt = new lightTrail(document.getElementById("canvas").getContext("2d"), [0,0,0]);
-			lt.strokeStart(10,10);
-			lt.stroke(100,100);	
-			lt.stroke(90,75);
-
-		</script>
 	</body>
 </html>
