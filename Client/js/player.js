@@ -1,17 +1,26 @@
+var PlayerStatus = {
+    ALIVE: 1,
+    DEAD: 2
+};
+
 // Example: 
-// var myPlayer = new Player({ Nickname: 'John', Colour: 'Red', StartX : 50, StartY: 50 });
-// myPlayer.SetCoord({X: 50, Y: 70});
+// var myPlayer = new Player({ ID: 1234, Nickname: 'John', Status: PlayerStatus.ALIVE, Colour: 'ff0000', Direction: 180, StartX : 50, StartY: 50 });
+// myPlayer.SetPosition({X: 50, Y: 70});
 this.Player = function (initialProperties) {
 	var self = this;
-	var nickname, colour, coord, kills, points, isAlive, rotation;
+	var id, nickname, colour, position, kills, points, state, direction;
 
-	this.SetCoord = function(newCoordinate) {
-		self.coord.X = newCoordinate.X;
-		self.coord.Y = newCoordinate.Y;
+	this.GetID = function() {
+		return self.id;
 	};
 	
-	this.GetCoord = function() {
-		return self.coord;
+	this.SetPosition = function(newPosition) {
+		self.position.X = newPosition.X;
+		self.position.Y = newPosition.Y;
+	};
+	
+	this.GetPosition = function() {
+		return self.position;
 	};
 	
 	this.GetNickname = function() {
@@ -42,33 +51,35 @@ this.Player = function (initialProperties) {
 		return self.kills;
 	};	
 	
-	this.SetIsAlive = function(newIsAlive) {
-		self.isAlive = newIsAlive;
+	this.SetState = function(newState) {
+		self.state = newState;
 	};
 	
-	this.GetIsAlive = function() {
-		return self.isAlive;
+	this.GetState = function() {
+		return self.state;
 	};
 	
-	// Radians? Degrees?
-	this.SetRotation = function(newRotation) {
-		self.rotation = newRotation;
+	// Degrees
+	this.SetDirection = function(newDirection) {
+		self.direction = newDirection;
 	};
 	
-	this.GetRotation = function() {
-		return self.rotation;
+	this.GetDirection = function() {
+		return self.direction;
 	};
-	
-	//sets up initial options
-	function init(initialProperties) {
-		self.nickname = initialProperties.Nickname;
-		self.colour = initialProperties.Colour;
-		self.coord = { X: initialProperties.StartX, Y: initialProperties.StartY };
+
+	this.UpdateAll = function(newProperties) {
+		self.id = newProperties.ID;
+		self.nickname = newProperties.Nickname;
+		self.colour = newProperties.Colour;
+		self.position = { X: newProperties.StartX, Y: newProperties.StartY };
+		self.state = newProperties.Status;
+		self.direction = newProperties.Direction;		
 		self.kills = 0;
 		self.points = 0;
-		self.isAlive = true;
-		self.rotation  = 0;
 	}
-	init(initialProperties);
+	
+	// Initialize by updating all
+	this.UpdateAll(initialProperties);
 }
 

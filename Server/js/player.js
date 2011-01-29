@@ -1,26 +1,30 @@
-function Player(options) {
-    if (!(this instanceof Player)) {
-        return new Player(options);
-    }
+//function Player(options) {
+//    if (!(this instanceof Player)) {
+//        return new Player(options);
+//    }
+//
+//    return this.init(options);
+//}
 
-    return this.init(options);
-}
+/*-----------------------------------------------
+  Player Exports:
+-----------------------------------------------*/
+exports.Player = Player;
+exports.createPlayer = function(options){
+  return new Player(options);
+};
 
-Player.prototype = {
-    id: '',
-    name: '',
-    color: '',
-    position: '',
-    direction: '',
-    status: '',
+function Player(options){
+    var empty = '';
+    var name = '';
+    var color = '';
+    var position = '';
+    var direction = '';
+    var status = '';
 
-    init: function (options) {
-        var empty = '';
-        this.id = options.id || empty;
-        this.name = options.name || empty;
-        this.color = options.color || empty;
-        this.position = options.position || empty;
-        this.direction = options.direction || empty;
-        this.status = options.status || 'Idle';
-    }
-}
+    this.name = options.name || empty;
+    this.color = options.color || empty;
+    this.position = options.position || empty;
+    this.direction = options.direction || empty;
+    this.status = options.status || 'Idle';
+};
