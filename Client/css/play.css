@@ -1,0 +1,60 @@
+body {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	
+	font-family: Calibri, sans-serif;
+}
+
+div#page {
+	width: 800px;
+	margin: 0 auto;
+	padding: 0 10px;
+	text-align: left;
+	
+	border-left: 2px solid #999999;
+	border-right: 2px solid #999999;
+}
+
+h1 {
+	font-size: 28px;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+canvas {
+	display: block;
+	float: left;
+	
+	width: 500px;
+	height: 500px;
+	
+	border: 1px solid #f0f;
+}
+
+div#playerInfo {
+	float: left;
+	width: 250px;
+	margin-left: 15px;
+}
+
+ul#instructions {
+	clear: left;
+}
+
+dt {
+	display: inline-block;
+	width: 50px;
+	
+	text-align: right;
+}
+
+dd {
+	display: inline-block;
+	width: 150px;
+	
+	margin-left: 0;
+}
