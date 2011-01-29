@@ -44,7 +44,6 @@ ServerConn.prototype.onServerClose_ = function() {
         );
         notification.show();
     }
-
 }
 
 /** Internal WebSocket handler for server errors */
@@ -71,7 +70,7 @@ ServerConn.prototype.onMessage_ = function(e) {
 }
 
 /** Exposed GameState handler */
-ServerConn.prototype.onState = function(state) { }
+ServerConn.prototype.onState = function(state) { };
 
 /** Check if connection is open */
 ServerConn.prototype.isActive = function() {
@@ -79,7 +78,7 @@ ServerConn.prototype.isActive = function() {
 }
 
 /** Send event to server */
-ServerConn.prototype.notify(action) {
+ServerConn.prototype.notify = function(action) {
     console.log('Event: ' + name + ', ' + action);
     this.connection.send(JSON.stringify({
         command: RequestType.ACTION,
