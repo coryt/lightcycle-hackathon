@@ -37,17 +37,17 @@ ServerConn.prototype.onConnectionOpen_ = function() {
 
 /** Internal WebSocket handler for closed connections */
 ServerConn.prototype.onServerClose_ = function() {
-    console.log('server disconnected');
+    console.log('ServerConn: server disconnected');
 }
 
 /** Internal WebSocket handler for server errors */
 ServerConn.prototype.onServerError_ = function(error) {
-    console.error(error);
+    console.error('ServerConn: ' + error);
 }
 
 /** Internal WebSocket handler for server messages */
 ServerConn.prototype.onMessage_ = function(e) {
-    console.log(e + ' --- ' + e.data);
+    console.log('ServerConn: Received message ' + e + ' : ' + e.data);
     this.parseMessage_(e.data);
 }
 
@@ -56,7 +56,7 @@ ServerConn.prototype.parseMessage_ = function(data) {
 
     switch (obj.command) {
         case ResponseType.STATE:
-            console.log('STATE response');
+            console.log('ServerConn: Received STATE response');
             var msg = obj.message;
             if (this.onState && msg) {
                 var state = new GameState(msg.status);
@@ -73,7 +73,7 @@ ServerConn.prototype.parseMessage_ = function(data) {
             onState(state);
             break;
         default:
-            console.error('Invalid response type: ' + obj.command);
+            console.error('ServerConn: Invalid response type: ' + obj.command);
             break;
     }
 }
@@ -88,7 +88,7 @@ ServerConn.prototype.isActive = function() {
 
 /** Send event to server */
 ServerConn.prototype.notify = function(action) {
-    console.log('Event: ' + name + ', ' + action);
+    console.log('ServerConn: Sending action for ' + name + ' : ' + action);
     this.connection.send(JSON.stringify({
         command: RequestType.ACTION,
         player: {
