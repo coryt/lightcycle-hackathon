@@ -6,43 +6,64 @@ body {
 	font-family: Calibri, sans-serif;
 }
 
-div#page {
-	width: 800px;
+div#page, h1 {
+	width: 1127px;
 	margin: 0 auto;
-	padding: 0 10px;
-	text-align: left;
 	
 	border-left: 2px solid #999999;
 	border-right: 2px solid #999999;
+	
+}
+
+div#page {
+	text-align: left;
 }
 
 h1 {
-	font-size: 28px;
+	font-size: 24px;
 	font-weight: bold;
+	
+	border-bottom: 1px solid #000000;
 }
 
 h2 {
-	font-size: 36px;
+	width: 1127px;
+	margin: 0;
+	padding: 40px 0;
+	
+	text-align: center;
+	font-size: 48px;
+}
+
+div#main {
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
 }
 
 canvas {
 	display: block;
 	float: left;
 	
-	width: 500px;
-	height: 500px;
+	width: 800px;
+	height: 800px;
+	margin-left: 100px;
 	
-	border: 1px solid #f0f;
+	background-color: #FFCCFF;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
 }
 
 div#playerInfo {
 	float: left;
-	width: 250px;
-	margin-left: 15px;
+	width: 205px;
+	padding-left: 20px;
 }
 
 ul#instructions {
-	clear: left;
+	margin: 0;
+	padding: 50px 100px;
+	
+	list-style: none;
 }
 
 dt {
@@ -57,4 +78,8 @@ dd {
 	width: 150px;
 	
 	margin-left: 0;
+}
+
+div.clear {
+	clear: both;
 }
