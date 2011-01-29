@@ -1,0 +1,3 @@
+ResponseType = {
+    STATE: 'STATE'
+}
