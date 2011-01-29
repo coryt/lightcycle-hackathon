@@ -3,7 +3,7 @@
 // myPlayer.SetCoord({X: 50, Y: 70});
 this.Player = function (initialProperties) {
 	var self = this;
-	var nickname, colour, coord, kills, points;	
+	var nickname, colour, coord, kills, points, isAlive, rotation;
 
 	this.SetCoord = function(newCoordinate) {
 		self.coord.X = newCoordinate.X;
@@ -41,19 +41,40 @@ this.Player = function (initialProperties) {
 	this.GetKills = function() {
 		return self.kills;
 	};	
-		
+	
+	this.SetIsAlive = function(newIsAlive) {
+		self.isAlive = newIsAlive;
+	};
+	
+	this.GetIsAlive = function() {
+		return self.isAlive;
+	};
+	
+	// Radians? Degrees?
+	this.SetRotation = function(newRotation) {
+		self.rotation = newRotation;
+	};
+	
+	this.GetRotation = function() {
+		return self.rotation;
+	};
+	
 	//sets up initial options
 	function init(initialProperties) {
 		self.nickname = initialProperties.Nickname;
 		self.colour = initialProperties.Colour;
 		self.coord = { X: initialProperties.StartX, Y: initialProperties.StartY };
 		self.kills = 0;
-		self.points = 0;	
+		self.points = 0;
+		self.isAlive = true;
+		self.rotation  = 0;
 	}
 	init(initialProperties);
 }
 
-//var myPlayer = new Player({ Nickname: 'John', Colour: 'Red', StartX : 50, StartY: 50 });
-//myPlayer.SetCoord({X: 50, Y: 70});
-//alert(myPlayer.GetCoord());
-//alert(myPlayer.GetNickname());
+/*
+var myPlayer = new Player({ Nickname: 'John', Colour: 'Red', StartX : 50, StartY: 50 });
+myPlayer.SetCoord({X: 50, Y: 70});
+alert(myPlayer.GetCoord());
+alert(myPlayer.GetNickname());
+*/
