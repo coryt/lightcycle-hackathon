@@ -8,6 +8,8 @@
 		<script type="text/javascript" src="js/logger.js"></script>
 		<script type="text/javascript" src="js/miscHelpers.js"></script>
 		<script type="text/javascript" src="js/canvasHelper.js"></script>
+		<script type="text/javascript" src="js/drawGameBoard.js"></script>
+		<script type="text/javascript" src="js/drawGame.js"></script>
 		<script type="text/javascript">
 			var tmpPlayer = new Player({
 				Nickname: queryString("nickname"),
@@ -104,8 +106,8 @@
 			}
 			
 			var canvasHelper = new CanvasHelper({
-				onDraw:drawTest,
-				FPS:30,
+				onDraw:drawGameBoard,
+				FPS:0.1,
 				offscreenSize:
 				{
 					width:800,
