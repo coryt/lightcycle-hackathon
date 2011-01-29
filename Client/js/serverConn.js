@@ -59,7 +59,7 @@ ServerConn.prototype.parseMessage_ = function(data) {
 
     switch (obj.command) {
         case ResponseType.STATE:
-            console.log('ServerConn: Received STATE response');
+            console.log('ServerConn: Received STATE response: ' + obj);
             var msg = obj.message;
             if (this.onState && msg) {
                 var state = new GameState(msg.status);

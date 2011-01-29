@@ -6,19 +6,23 @@
     <script type="text/javascript" src="js/responseType.js"></script>
     <script type="text/javascript" src="js/actions.js"></script>
     <script type="text/javascript" src="js/gameState.js"></script>
+    <script type="text/javascript" src="js/player.js"></script>
     <script type="text/javascript" src="js/serverConn.js"></script>
     <script>
         window.addEventListener('load', onLoad, false);
         function onLoad() {
             var conn = new ServerConn('137.122.39.222:8080', 'test', 'ffffff');
             conn.onState = this.onState;
-            conn.start();
+            //conn.start();
 
-            //var data = '{"command":"STATE","message":{"status":"Closed","players":{"671230260":{"id":"671230260"}}}}';
-            //conn.parseMessage_(data);
+            var data = '{"command":"STATE","message":{"status":"Closed","players":[{"id":12345,"name":"test","color":"ffffff","position":"100,200","direction":250,"status":1}'+
+                ',{"id":65789,"name":"test2","color":"ffffff","position":"100,200","direction":250,"status":1}' +
+                ']}}';
+            conn.parseMessage_(data);
         }
         function onState(state) {
             console.log(state);
+            console.log(state.getPlayers());
         }
     </script>
 </head>
