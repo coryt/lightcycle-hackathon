@@ -1,8 +1,21 @@
 function drawGameBoard(context)
 {
 	context.save();
+	context.globalAlpha = 1;
+	context.globalCompositeOperation = "source-over";
+	context.clearRect(0,0,800,800);
+	context.fillStyle = "#ffffff";
+	context.beginPath();
+	context.arc(400, 400, 400, 0, Math.PI *2, true);
+	context.closePath();	
+	context.fill();
 	
-	//draw stuff here
+	context.strokeStyle = "#eeeeee";
+	context.lineWidth = 3;
+	context.stroke();
+
+	context.globalCompositeOperation = "source-atop";
+	
 	context.fillStyle = "#000000";
 	context.fillRect(0,0, 800, 800);
 	
@@ -21,16 +34,6 @@ function drawGameBoard(context)
 		context.closePath();
 		context.stroke();
 	}
-	context.globalCompositeOperation = "destination-in";
-	context.beginPath();
-	context.arc(400, 400, 400, 0, Math.PI *2, false);
-	context.closePath();
-	
-	context.fill();
-	context.globalCompositeOperation = "source-over";
-	context.strokeStyle = "#eeeeee";
-	context.lineWidth = 3;
-	context.stroke();
 	
 	context.restore();
 	}

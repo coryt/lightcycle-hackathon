@@ -1,5 +1,16 @@
 var sys = require('sys');
 
+/**
+ * Formats the chat log to be prepended with a date and separator. Similar
+ * to irssi messages when received.
+ * @param {string} message The message to format.
+ */
+chatlog = function (message) {
+  var date = new Date();
+  return date.getHours() + ':' +
+      date.getMinutes() + ':' +
+      date.getSeconds() + ' -!- ' + message;
+};
 
 // Get the size of an object
 Object.size = function(obj) {

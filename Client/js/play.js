@@ -33,7 +33,7 @@ function play_init()
 	
 	// Canvas initialization.
 	var canvasHelper = new CanvasHelper({
-		onDraw:drawTest,
+		onDraw:drawGameBoard,
 		FPS:30,
 		offscreenSize:
 		{
