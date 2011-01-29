@@ -1,4 +1,5 @@
 RequestType = {
     JOIN: 'JOIN',
-    EVENT: 'EVENT'
+    ACTION: 'ACTION',
+    QUIT: 'PART'
 }
