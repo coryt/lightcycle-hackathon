@@ -62,7 +62,7 @@ function play_init()
 	
 	var backgroundCanvasHelper = new CanvasHelper({
 		onDraw:drawGameBoard,
-		FPS:0.1,
+		FPS:1,
 		offscreenSize:
 		{
 			width:800,
