@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="js/canvasHelper.js"></script>
 		<script type="text/javascript" src="js/play.js"></script>
 		<script type="text/javascript" src="js/drawGameBoard.js"></script>
+		<script type="text/javascript" src="js/brushes/lightTrail2.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/play.css" />
 	</head>
 	
@@ -25,9 +26,9 @@
 			
 			<div id="main">
 				
-				<div id="fps"></div>
-				<canvas id="backgroundCanvas" width="800" height="800"></canvas>
-				<canvas id="foregroundCanvas" width="800" height="800"></canvas>
+				<div id="fps" style="position:absolute"></div>
+				<canvas id="backgroundCanvas" width="800" height="800" style="z-index:0;position:absolute"></canvas>
+				<canvas id="foregroundCanvas" width="800" height="800" style="z-index:1;position:absolute"></canvas>
 				
 				<div id="playerInfo">
 					<div>

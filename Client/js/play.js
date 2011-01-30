@@ -35,10 +35,34 @@ function play_init()
 	var title = document.getElementById("title");
 	title.style.width = totalSize + "px";
 	
+	var display = new gameDisplay();
+	var bob = new fakePlayer("bob", display, "#ADD8E6");
+	var jim = new fakePlayer("jim", display, "#D8ADE6");
+	var sam = new fakePlayer("sam", display, "#D8E6AD");
+	var red = new fakePlayer("red", display, "#FF0000");
+	var grn = new fakePlayer("grn", display, "#00FF00");
+	var blu = new fakePlayer("blu", display, "#0000FF");
+	
 	// Canvas initialization.
-	var canvasHelper = new CanvasHelper({
-		onDraw:drawGameBoard,
+	var foregroundCanvasHelper = new CanvasHelper({
+		onDraw:display.draw,
 		FPS:30,
+		offscreenSize:
+		{
+			width:800,
+			height:800
+		},
+		target:document.getElementById("foregroundCanvas"),
+		targetSize:
+		{
+			width:800,
+			height:800
+		}
+	});
+	
+	var backgroundCanvasHelper = new CanvasHelper({
+		onDraw:drawGameBoard,
+		FPS:0.1,
 		offscreenSize:
 		{
 			width:800,
@@ -51,15 +75,16 @@ function play_init()
 			height:800
 		}
 	});
+	
 	setInterval(function(){
-		document.getElementById("fps").innerHTML = canvasHelper.FPS();
+		document.getElementById("fps").innerHTML = foregroundCanvasHelper.FPS();
 	}, 1000);
 	
 	//console.log(document.getElementById("canvas").getContext("2d"));
-	var lt = new lightTrail(document.getElementById("foregroundCanvas").getContext("2d"), [0,0,0]);
-	lt.strokeStart(10,10);
-	lt.stroke(100,100);	
-	lt.stroke(90,75);
+	//var lt = new lightTrail(document.getElementById("foregroundCanvas").getContext("2d"), [0,0,0]);
+	//lt.strokeStart(10,10);
+	//lt.stroke(100,100);	
+	//lt.stroke(90,75);
 	
 	// Player name and color initialization.
 	var tmpPlayer = new Player({
