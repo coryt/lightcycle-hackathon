@@ -4,6 +4,7 @@ function gameDisplay()
 	var self = this;
 	var lines ={};
 	var pointAges = {};
+	var lastPointAges = {};
 	var colors = {};
 	var rotation = {};
 	var lastRotation = {};
@@ -26,7 +27,9 @@ function gameDisplay()
 			line = [];
 			lines[name] = line;			
 		}
-		pointAges[name] = (new Date()).getTime();
+		var now = (new Date()).getTime()
+		lastPointAges[name] = pointAges[name] ? pointAges[name] : now;
+		pointAges[name] = now;
 		rotation[name] = r;
 		line.push({"x":x,"y":y});
 	}
@@ -91,7 +94,9 @@ function gameDisplay()
 				context.quadraticCurveTo(line[i].x, line[i].y, line[i+1].x, line[i+1].y);
 			}
 			
-			var percent = Math.min(1, (new Date().getTime() - pointAges[name])/250);
+			var timeDelay = pointAges[name] - lastPointAges[name];
+			timeDelay = Math.max(1, timeDelay);
+			var percent = Math.min(1, (new Date().getTime() - pointAges[name])/timeDelay);
 			var invPercent = 1- percent;
 			var l1 = line.length-1;
 			var l2 = l1 -1;			
