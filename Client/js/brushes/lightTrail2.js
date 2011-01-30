@@ -4,22 +4,26 @@ function gameDisplay()
 	var lines ={};
 	var pointAges = {};
 	var colors = {};
+	var rotation = {};
+	
+	var lightCycle = new Image();
+	lightCycle.src =  "images/lightcycle.png";
 	
 	self.setColor = function(name, color)
 	{
 		colors[name] = color;
 	}
 	
-	self.addPoint = function (name, x, y)
+	self.addPoint = function (name, x, y, r)
 	{
 		var line = lines[name];		
 		if (!line)
 		{
 			line = [];
 			lines[name] = line;			
-			pointAges[name] = 0;
 		}
 		pointAges[name] = (new Date()).getTime();
+		rotation[name] = r;
 		line.push({"x":x,"y":y});
 	}
 	
@@ -28,11 +32,43 @@ function gameDisplay()
 		lines[name] = [];
 	}
 	
+	function determineAngle(x1,y1,x2,y2)
+	{
+		var quarter = Math.PI/2;
+		var angle = 0;
+		try
+		{
+			var dx = x2-x1;
+			var dy = y2-y1;
+						
+			if (dy == 0)
+			{
+				angle=dx>0?0:Math.PI;
+			}
+			else
+			{
+				angle=Math.atan(Math.abs(dx/dy));
+			}
+			if (dx < 0 && dy > 0)
+			{angle+=quarter;}
+			else if (dx < 0 && dy < 0)
+			{angle+=quarter*2;}
+			else if (dx > 0 && dy < 0)
+			{angle+=quarter*3;}			
+		}
+		catch (err)
+		{}
+		angle = angle ? angle : 0;
+		angle = Math.max(0, angle);
+		angle = Math.min(Math.PI * 2, angle);
+		return angle;
+	}
+	
 	function drawPlayer(context, name)
 	{
 		context.save();		
 		context.strokeStyle = colors[name];
-		context.lineWidth = 3;
+		context.lineWidth = 4;
 		context.lineCap = "round";
 		context.lineJoin = "round";
 		var line = lines[name];
@@ -56,7 +92,20 @@ function gameDisplay()
 			context.quadraticCurveTo(line[line.length-2].x, line[line.length-2].y, lx, ly);
 			context.moveTo(line[0].x, line[0].y);
 			context.closePath();
-			context.stroke();					
+			context.stroke();
+
+			context.save();
+			var whatAngle = rotation[name];
+			if (!whatAngle)
+			{
+				whatAngle = determineAngle(line[l2].x, line[l2].y, lx, ly);
+			}
+			context.translate(lx, ly);
+			
+			context.rotate(whatAngle);			
+			context.translate(-20, -5);
+            context.drawImage(lightCycle, 0,  0, 30, 12);			
+			context.restore();
 		}		
 		context.restore();
 	}
@@ -93,7 +142,9 @@ function fakePlayer(name, gameDisplay, color)
 	{
 		//this random function has a clockwise bias.  This is intentional as it gives more
 		//interesting paths
-		var dr = (Math.random() * 30- 11) / 360 * Math.PI * 2;
+		var maxDR = 15;
+		var bias = 0.55;
+		var dr = (Math.random() * (maxDR)- (maxDR/2*bias)) / 360 * Math.PI * 2;
 		angle += dr;
 		angle %= Math.PI * 2;
 	
@@ -111,7 +162,7 @@ function fakePlayer(name, gameDisplay, color)
 			gameDisplay.removePoints(name);
 		}
 		
-		gameDisplay.addPoint(name, x, y);
+		gameDisplay.addPoint(name, x, y, angle);
 	}
 	
 	init();
