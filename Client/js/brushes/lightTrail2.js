@@ -1,3 +1,4 @@
+//draws the light racers on the screen
 function gameDisplay()
 {
 	var self = this;
@@ -10,11 +11,13 @@ function gameDisplay()
 	var lightCycle = new Image();
 	lightCycle.src =  "images/lightcycle.png";
 	
+	//sets the color of a named player
 	self.setColor = function(name, color)
 	{
 		colors[name] = color;
 	}
 	
+	//adds a waypoint to the named player
 	self.addPoint = function (name, x, y, r)
 	{
 		var line = lines[name];		
@@ -28,11 +31,14 @@ function gameDisplay()
 		line.push({"x":x,"y":y});
 	}
 	
+	//removes all the waypoints for the named player
 	self.removePoints = function(name)
 	{
 		lines[name] = [];
 	}
 	
+	//a function to determine the angle between two points
+	//it's not very accurate when the distance between the points is small
 	function determineAngle(x1,y1,x2,y2)
 	{
 		var quarter = Math.PI/2;
@@ -65,6 +71,7 @@ function gameDisplay()
 		return angle;
 	}
 	
+	//Draws a single player's light trail and light cycle
 	function drawPlayer(context, name)
 	{
 		context.save();		
@@ -73,9 +80,11 @@ function gameDisplay()
 		context.lineCap = "round";
 		context.lineJoin = "round";
 		var line = lines[name];
+		//wait till we have three points before we start drawing so we can make the lines smoother with curves
 		if (line.length > 3)
 		{
 			context.beginPath();
+			
 			context.moveTo(line[0].x, line[0].y);
 			for(var i=1;i<line.length - 2;i=i+2)
 			{
@@ -119,9 +128,10 @@ function gameDisplay()
 		context.restore();
 	}
 	
+	//the draw loop for the game board
 	self.draw = function(context)
 	{
-		context.clearRect(0,0,800, 800);		
+		context.clearRect(0,0,800, 800);
 		for (var player in lines)
 		{
 			drawPlayer(context, player);
@@ -147,12 +157,13 @@ function fakePlayer(name, gameDisplay, color)
 		speed=20;
 	}
 	
+	//moves the player more or less in the same direction that they were heading previously
 	function step()
 	{
 		//this random function has a clockwise bias.  This is intentional as it gives more
 		//interesting paths
 		var maxDR = 45;
-		var bias = 0.6;
+		var bias = 0.65;
 		var dr = (Math.random() * (maxDR)- (maxDR/2*bias)) / 360 * Math.PI * 2;
 		angle += dr;
 		angle %= Math.PI * 2;
