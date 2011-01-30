@@ -5,6 +5,7 @@ function gameDisplay()
 	var pointAges = {};
 	var colors = {};
 	var rotation = {};
+	var lastRotation = {};
 	
 	var lightCycle = new Image();
 	lightCycle.src =  "images/lightcycle.png";
@@ -81,7 +82,7 @@ function gameDisplay()
 				context.quadraticCurveTo(line[i].x, line[i].y, line[i+1].x, line[i+1].y);
 			}
 			
-			var percent = Math.min(1, (new Date().getTime() - pointAges[name])/200);
+			var percent = Math.min(1, (new Date().getTime() - pointAges[name])/250);
 			var invPercent = 1- percent;
 			var l1 = line.length-1;
 			var l2 = l1 -1;			
@@ -100,8 +101,16 @@ function gameDisplay()
 			{
 				whatAngle = determineAngle(line[l2].x, line[l2].y, lx, ly);
 			}
-			context.translate(lx, ly);
+			var lr = lastRotation[name];
+			if (!lr){lr=whatAngle;}
 			
+			if (lr - whatAngle > Math.PI)
+			{whatAngle+=Math.PI*2;}
+			
+			whatAngle = (whatAngle*percent) + (lr*invPercent);
+			lastRotation[name]=whatAngle%(Math.PI*2);
+			
+			context.translate(lx, ly);			
 			context.rotate(whatAngle);			
 			context.translate(-20, -5);
             context.drawImage(lightCycle, 0,  0, 30, 12);			
@@ -135,15 +144,15 @@ function fakePlayer(name, gameDisplay, color)
 		x=400;
 		y=400;
 		angle = Math.random() * Math.PI * 2;
-		speed=10;
+		speed=20;
 	}
 	
 	function step()
 	{
 		//this random function has a clockwise bias.  This is intentional as it gives more
 		//interesting paths
-		var maxDR = 15;
-		var bias = 0.55;
+		var maxDR = 45;
+		var bias = 0.6;
 		var dr = (Math.random() * (maxDR)- (maxDR/2*bias)) / 360 * Math.PI * 2;
 		angle += dr;
 		angle %= Math.PI * 2;
@@ -166,5 +175,5 @@ function fakePlayer(name, gameDisplay, color)
 	}
 	
 	init();
-	setInterval(step, 200);
+	setInterval(step, 250);
 }
