@@ -26,6 +26,8 @@ function CanvasHelper(configOptions)
 	var _updateFrameRateInterval = null;
 	var _drawFrameInterval = null;
 	
+	var _clearFrameOnCopy = true;
+	
 	function updateFrameRate()
 	{
 		_actualFPS = _frameCount / 5;
@@ -61,9 +63,9 @@ function CanvasHelper(configOptions)
 	{
 		_frameCount ++;
 		try
-		{
+		{			
 			if (_onDrawCB && _offscreenCanvasContext)
-			{
+			{			
 				_onDrawCB(_offscreenCanvasContext);
 			}
 		}
@@ -75,6 +77,10 @@ function CanvasHelper(configOptions)
 		{
 			if (_targetCanvasContext)
 			{
+				if (_clearFrameOnCopy)
+				{
+					_targetCanvasContext.clearRect(0,0, 800, 800);
+				}
 				_targetCanvasContext.drawImage(_offscreenCanvas, 0, 0, _targetCanvasWidth, _targetCanvasHeight);
 			}
 		}catch (err)

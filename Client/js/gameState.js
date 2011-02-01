@@ -6,11 +6,15 @@ StateStatus = {
 
 GameState = function(status) {
     this.status = status;
-    this.players = [];
+    this.players = new Object();
+    this.count = 0;
 }
 
 GameState.prototype.addPlayer = function(player) {
-    this.players[player.name] = player;
+    if (player && player.GetNickname()) {
+        this.players[player.GetNickname()] = player;
+        this.count ++;
+    }
 }
 
 GameState.prototype.findPlayer = function(name) {
@@ -18,5 +22,11 @@ GameState.prototype.findPlayer = function(name) {
 }
 
 GameState.prototype.getPlayers = function() {
-    return this.players;
+    var arr = new Array();
+    var i = 0;
+    for (var p in this.players) {
+        arr[i] = this.players[p];
+        i ++;
+    }
+    return arr;
 }
