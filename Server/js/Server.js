@@ -11,7 +11,7 @@ var gg = require('./model');
 NotificationServer = function(port) {
   this.port_ = port;
   this.server_ = ws.createServer();
-  this.players_ = [];
+  this.connections_ = {};
   this.log_ = [];
   this.commands_ = {};
   this.gameModel = null;
@@ -25,9 +25,9 @@ NotificationServer = function(port) {
 NotificationServer.prototype.init = function() {
   
   this.commands_ = {
-    'JOIN': JoinCommand
-    //'ACTION': ActionCommand,
-    //'STATE': GameStateCommand
+    'JOIN': JoinCommand,
+    'ACTION': ActionCommand,
+    'STATE': GameStateCommand
   };
   
   this.server_.addListener('request', this.onWebRequest.bind(this));
@@ -46,7 +46,7 @@ NotificationServer.prototype.init = function() {
 NotificationServer.prototype.onWebRequest = function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.write("Commands: JOIN | ACTION | STATE | PART\n");
-  res.write("Players: "+ Object.size(this.players_) +"\n");
+  res.write("Players: "+ Object.size(this.connections_) +"\n");
   for(var l =0; l < this.log_.length; ++l){
     res.write("Log: "+this.log_[l]+"\n");
   }
@@ -67,9 +67,7 @@ NotificationServer.prototype.onListen = function() {
 NotificationServer.prototype.onConnection = function(conn) {
   syslog('onConnection: from ' + conn.id);
   this.log_.push("Connection from "+ conn.id);
-  this.players_[conn.id] = {
-    id: conn.id
-  };
+  this.connections_[conn.id] = {};
 };
 
 /**
@@ -92,10 +90,10 @@ NotificationServer.prototype.onMessage = function(conn, message) {
  * Fires when a user is being disconnected.
  */
 NotificationServer.prototype.onDisconnect = function(conn) {
-  //var player = this.players_[conn.id].name;
+  var player = this.connections_[conn.id].player;
   syslog('onDisconnect: ' + player);
   this.broadcast({player: player, id: conn.id}, NotificationCommand.PART);
-  //delete this.players_[conn.id];
+  delete this.connections_[conn.id];
 };
 
 /**
@@ -112,29 +110,28 @@ NotificationServer.prototype.onCleanup = function() {
  * @returns {object} List of connected players.
  */
 NotificationServer.prototype.getPlayers = function() {
-  return this.players_;
+	var players = [];
+	for (var conn in this.connections_) {
+		list.push(conn.player);
+	}
+	return players;
 };
 
 /**
  * @id player connection id
  * @player {object} player
  */
-NotificationServer.prototype.setPlayer = function(player) {
-  //this.log_.push("Player Registered " + player.name);
-  //this.players_.push(player);
+NotificationServer.prototype.setPlayer = function(conn, player) {
+	this.log_.push("Player Registered " + player.name);
+	syslog("Player Registered " + player.name);
+	this.connections_[conn.id].player = player;
 };
 
 /**
  * @returns {object} player
  */
-NotificationServer.prototype.getPlayer = function(name) {
-    var player;
-    for(var p = 0; p<=this.players_.length; p++){
-      if(this.players_[p].name = name) {
-          player = this.players_[p];
-      }
-  }
-  return player;
+NotificationServer.prototype.getPlayer = function(conn) {
+	return this.connections_[conn.id];
 };
 
 /**
