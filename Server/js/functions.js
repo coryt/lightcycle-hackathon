@@ -21,6 +21,27 @@ Object.size = function(obj) {
     return size;
 };
 
+Object.prototype.getSource = function() {
+    var output = [], temp;
+    for (var i in this) {
+        if (this.hasOwnProperty(i)) {
+            temp = i + ":";
+            switch (typeof this[i]) {
+                case "object" :
+                    temp += this[i].getSource();
+                    break;
+                case "string" :
+                    temp += "\"" + this[i] + "\"";    // add in some code to escape quotes
+                    break;
+                default :
+                    temp += this[i];
+            }
+            output.push(temp);
+        }
+    }
+    return "{" + output.join() + "}";
+}
+
 /**
  * Logging into the servers console.
  * @Override

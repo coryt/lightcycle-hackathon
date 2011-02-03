@@ -67,7 +67,7 @@ NotificationServer.prototype.onListen = function() {
 NotificationServer.prototype.onConnection = function(conn) {
   syslog('onConnection: from ' + conn.id);
   this.log_.push("Connection from "+ conn.id);
-  this.connections_[conn.id] = {};
+  this.connections_[conn.id] = {'player':null};
 };
 
 /**
@@ -90,10 +90,11 @@ NotificationServer.prototype.onMessage = function(conn, message) {
  * Fires when a user is being disconnected.
  */
 NotificationServer.prototype.onDisconnect = function(conn) {
-  var player = this.connections_[conn.id].player;
-  syslog('onDisconnect: ' + player);
-  this.broadcast({player: player, id: conn.id}, NotificationCommand.PART);
-  delete this.connections_[conn.id];
+	syslog('Disconnecting conn (' + conn.id + ')');
+	var player = this.connections_[conn.id].player;
+	syslog('Player: ' + player.name);
+	this.broadcast({player: player, id: conn.id}, NotificationCommand.PART);
+	delete this.connections_[conn.id];
 };
 
 /**
@@ -111,8 +112,10 @@ NotificationServer.prototype.onCleanup = function() {
  */
 NotificationServer.prototype.getPlayers = function() {
 	var players = [];
-	for (var conn in this.connections_) {
-		list.push(conn.player);
+	for (var key in this.connections_) {
+		if(typeof this.connections_[key] == 'function') continue;
+		var conn = this.connections_[key];
+		players.push(conn.player);
 	}
 	return players;
 };
@@ -123,15 +126,16 @@ NotificationServer.prototype.getPlayers = function() {
  */
 NotificationServer.prototype.setPlayer = function(conn, player) {
 	this.log_.push("Player Registered " + player.name);
-	syslog("Player Registered " + player.name);
-	this.connections_[conn.id].player = player;
+	syslog("setting player " + player.name);
+	this.connections_[conn.id]['player'] = player;
+	syslog("player just set: " + this.getPlayer(conn).getSource());
 };
 
 /**
  * @returns {object} player
  */
 NotificationServer.prototype.getPlayer = function(conn) {
-	return this.connections_[conn.id];
+	return this.connections_[conn.id].player;
 };
 
 /**
